@@ -15,6 +15,7 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<<<<<<< HEAD
 		<buildCommand>
 			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
 			<triggers>clean,full,incremental,</triggers>
@@ -33,6 +34,10 @@
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+=======
+	</buildSpec>
+	<natures>
+>>>>>>> branch 'master' of https://github.com/osirisf/FairCellularNetwork.git
 		<nature>org.omnetpp.main.omnetppnature</nature>
 	</natures>
 </projectDescription>
