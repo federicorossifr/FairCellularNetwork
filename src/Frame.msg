@@ -1,9 +1,9 @@
 cplusplus {{
 #include "ResourceBlock.h"
-typedef ResourceBlock* ResourceBlockPtr
+typedef ResourceBlock* ResourceBlockPtr;
 }}
-class noncobject SomeType;
+class noncobject ResourceBlockPtr;
 
 message Frame {
-    ResourceBlockPtr* _rbs[25];
+    ResourceBlockPtr _rbs[25];
 }

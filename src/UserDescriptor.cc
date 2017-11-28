@@ -1,7 +1,7 @@
 #include "UserDescriptor.h"
 void UserDescriptor::insertPacket(Packet* p){packetQueue.insert(p);}
 
-Packet* UserDescriptor::popPacket(){return packetQueue.pop();}
+Packet* UserDescriptor::popPacket(){return (Packet*)packetQueue.pop();}
 
 void UserDescriptor::setID(int value){userID = value;}
 

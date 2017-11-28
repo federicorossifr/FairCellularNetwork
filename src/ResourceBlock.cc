@@ -1,10 +1,4 @@
-#include "resourceBlock.h"
-
-ResourceBlock::ResourceBlock(int dim){
-	_packets = new cQueue("RB",NULL);
-	available = true;
-	size = dim;
-}
+#include "ResourceBlock.h"
 
 int ResourceBlock::insertPacket(Packet* p){
     int packetSize = p->getSize();

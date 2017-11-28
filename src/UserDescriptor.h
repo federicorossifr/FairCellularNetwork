@@ -2,22 +2,20 @@
 #define __FAIRCELLULARNETWORK_USERDESCRIPTOR_H_
 
 #include <omnetpp.h>
-
+#include "Packet_m.h"
 using namespace omnetpp;
 
-class UserDescriptor
-{
-private:
+class UserDescriptor {
 	int userID;
 	int receivedBytes;
 	int currentCqi;
 	cQueue packetQueue;
 
-	bool insertPacket(Packet* p);
-	Packet* popPacket();
-
-	virtual UserDescriptor() {;};
+public:
+	UserDescriptor() {;};
 	virtual ~UserDescriptor() {;};
+	void insertPacket(Packet* p);
+	Packet* popPacket();
 	
 	void setID(int value);
 	int getID();
