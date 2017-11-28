@@ -13,34 +13,23 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __FAIRCELLULARNETWORK_USERDESCRIPTOR_H_
-#define __FAIRCELLULARNETWORK_USERDESCRIPTOR_H_
+#ifndef __FAIRCELLULARNETWORK_RESOURCEBLOCK_H_
+#define __FAIRCELLULARNETWORK_RESOURCEBLOCK_H_
 
 #include <omnetpp.h>
 
 using namespace omnetpp;
 
-class userDescriptor
-{
-private:
-	int id;
-	int recv_bytes;
-	int curr_cqi;
-	cQueue fifo;
-
-	bool insertPacket(Packet* p);
-	Packet *removePacket();
-
-	virtual userDescriptor();
-	//virtual ~userDescriptor();
-	
-	void setID(int value);
-	int getID();
-	void setRCVBT(int rcv);
-	int getRCVBT();
-	void setCQI(int cqi);
-	int getCQI();
-
+class ResourceBlock {
+	cQueue packets;
+	int size;
+	int available;
+	int userID;
+public:
+	ResourceBlock() {;};
+	~ResourceBlock() {;};
+	int insertPacket(Packet* p);
+	Packet* popPacket();
 };
 
 #endif
