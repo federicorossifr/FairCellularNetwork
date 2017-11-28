@@ -1,4 +1,3 @@
-package FairCellularNetwork.src;
 simple Antenna
 {
     parameters:
