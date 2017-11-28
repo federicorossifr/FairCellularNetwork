@@ -1,4 +1,3 @@
-package FairCellularNetwork.src;
 simple user{
 	parameters:
 	   	int n; 
