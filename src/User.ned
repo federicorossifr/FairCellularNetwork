@@ -1,4 +1,4 @@
-simple user{
+simple User{
 	parameters:
 	   	int n; 
 	gates:
