@@ -1,5 +1,9 @@
+package FairCellularNetwork.src;
 simple Antenna
 {
+    parameters:
+        int n;
     gates:
-      	input wirelessGate @directIn;
+        input in[];
+        output out[];
 }
