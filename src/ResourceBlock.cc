@@ -19,5 +19,5 @@ int ResourceBlock::insertPacket(Packet* p){
 }
 
 Packet* ResourceBlock::popPacket(){
-    return packets.pop();
+    return (Packet*)packets.pop();
 }

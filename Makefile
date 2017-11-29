@@ -3,6 +3,7 @@ all: checkmakefiles
 
 clean: checkmakefiles
 	cd src && $(MAKE) clean
+	cd src && rm -f *.exe
 
 cleanall: checkmakefiles
 	cd src && $(MAKE) MODE=release clean

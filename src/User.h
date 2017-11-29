@@ -2,7 +2,7 @@
 #define __FAIRCELLULARNETWORK_USER_H_
 
 #include <omnetpp.h>
-
+#include "Cqi_m.h"
 using namespace omnetpp;
 
 

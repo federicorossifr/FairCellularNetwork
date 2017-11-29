@@ -11,14 +11,17 @@ void User::initialize()
 int User::computeCqi() {
     int cqi = 1;
     cqi = uniform(1,15);
-    return cqiMap[cqi-1];
+    return cqi;
 }
 
 void User::handleMessage(cMessage *msg)
 {
     if(msg->isSelfMessage()) {
     	//send CQI to the Antenna 
-        send(computeCqi(),"out");
+        Cqi* cqiMsg = new Cqi();
+        cqiMsg->setCqiValue(computeCqi);
+        cqiMsg->setUserID(userID);
+        send(cqiMsg,"out");
         scheduleAt(simTime()+par("timeSlotPeriod"),timeSlotTimer);
     }
     else{

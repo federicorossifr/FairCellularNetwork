@@ -2,7 +2,7 @@ simple Antenna
 {
     parameters:
         int n;
-	   	double timeSlotPeriod @unit(ns);         
+	   	double timeSlotPeriod @unit(ms);         
     gates:
         input in[];
         output out[];

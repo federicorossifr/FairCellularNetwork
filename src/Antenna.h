@@ -9,30 +9,19 @@ using namespace omnetpp;
 
 class Antenna : public cSimpleModule
 {
-    cMessage* timeSlotTimer = new cMessage("timeSlot");
+    cMessage* timeSlotTimer = new cMessage("antennaTimeSlot");
     UserDescriptor* users;
     cMessage* packetTimers;
     int networkDimension;
-
+    int cqiMap[15] = {3,3,6,11,15,20,25,36,39,50,63,72,80,93,93};
+    simtime_t period;
     void handleCQIMessage(Cqi*);
+    void handleExpInterrarival(cMessage*);
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
   public:
-    Antenna() {
-        //Retrieve network dimensions
-        int dim = (int)par("n");
-        networkDimension = dim;
-        //Create an array of users descriptors
-        users = new UserDescriptor[(int)par("n")];
-        //Create array of Timers for user packets
-        packetTimers = new cMessage[dim];
-        //Initialize User Descriptors
-        for(int i = 0; i < dim; ++i) {
-            users[i].setID(i);
-            packetTimers[i].setName( (std::to_string(i)).c_str() );
-        }
-    }
+    Antenna() {;}
 };
 
 #endif
