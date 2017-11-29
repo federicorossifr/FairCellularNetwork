@@ -16,7 +16,7 @@ public:
 	virtual ~UserDescriptor() {;};
 	void insertPacket(Packet* p);
 	Packet* popPacket();
-	
+	Packet* getHeadPacket() {return (Packet*)packetQueue.front());}
 	void setID(int value);
 	int getID();
 	void setRCVBT(int rcv);

@@ -7,11 +7,11 @@ using namespace omnetpp;
 
 class ResourceBlock {
 	cQueue packets;
-	int size;
-	int available;
-	int userID;
+	int size=0;
+	int available=0;
+	int userID=-1;
 public:
-	ResourceBlock() {;};
+	ResourceBlock() {packets.clear();};
 	~ResourceBlock() {;};
 	int insertPacket(Packet* p);
 	Packet* popPacket();
