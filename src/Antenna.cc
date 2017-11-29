@@ -4,13 +4,12 @@ Define_Module(Antenna);
 
 void Antenna::initialize()
 {
-    scheduleAt(simTime()+"timeSlotPeriod",timeSlotTimer);
+    scheduleAt(simTime()+ par("timeSlotPeriod"),timeSlotTimer);
 }
 
 void Antenna::handleMessage(cMessage *msg)
 {
     if(msg->isSelfMessage()) {
-        // TODO -- Handle self timer
-        scheduleAt(simTime()+"timeSlotPeriod",timeSlotTimer);
+        scheduleAt(simTime()+ par("timeSlotPeriod"),timeSlotTimer);
     }
 }
