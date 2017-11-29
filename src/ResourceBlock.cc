@@ -17,3 +17,7 @@ int ResourceBlock::insertPacket(Packet* p){
     //Notify caller that whole packet could not be inserted
     return -1;
 }
+
+Packet* ResourceBlock::popPacket(){
+    return packets.pop();
+}
