@@ -12,7 +12,7 @@ class UserDescriptor {
 	cQueue packetQueue;
 
 public:
-	UserDescriptor() {;};
+	UserDescriptor();
 	virtual ~UserDescriptor() {;};
 	void insertPacket(Packet* p);
 	Packet* popPacket();

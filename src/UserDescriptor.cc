@@ -1,4 +1,10 @@
 #include "UserDescriptor.h"
+
+UserDescriptor::UserDescriptor() {
+    receivedBytes = 0;
+    currentCqi = -1;
+    packetQueue.clear();
+}
 void UserDescriptor::insertPacket(Packet* p){packetQueue.insert(p);}
 
 Packet* UserDescriptor::popPacket(){return (Packet*)packetQueue.pop();}
