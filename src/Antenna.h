@@ -5,9 +5,6 @@
 
 using namespace omnetpp;
 
-/**
- * TODO - Generated class
- */
 class Antenna : public cSimpleModule
 {
     cMessage* timeSlotTimer = new cMessage("timeSlot");
