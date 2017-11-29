@@ -19,10 +19,13 @@ Define_Module(Antenna);
 
 void Antenna::initialize()
 {
-    // TODO - Generated method body
+    scheduleAt(simTime()+"timeSlotPeriod",timeSlotTimer);
 }
 
 void Antenna::handleMessage(cMessage *msg)
 {
-    // TODO - Generated method body
+    if(msg->isSelfMessage()) {
+        // TODO -- Handle self timer
+        scheduleAt(simTime()+"timeSlotPeriod",timeSlotTimer);
+    }
 }

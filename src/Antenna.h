@@ -25,6 +25,7 @@ using namespace omnetpp;
  */
 class Antenna : public cSimpleModule
 {
+    cMessage* timeSlotTimer = new cMessage("timeSlot");
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

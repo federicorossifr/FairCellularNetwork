@@ -1,6 +1,7 @@
 simple User{
 	parameters:
-	   	int n; 
+	   	int n;
+	   	double timeSlotPeriod @unit(ns); 
 	gates:
 	    input in;
 	    output out;
