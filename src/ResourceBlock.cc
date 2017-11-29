@@ -1,7 +1,7 @@
 #include "ResourceBlock.h"
 
 int ResourceBlock::insertPacket(Packet* p){
-    int packetSize = p->getSize();
+    int packetSize = p->getSize()-p->getPackedSize();
     if(packetSize <= available) {
         packets.insert(p);
         available-=packetSize;
@@ -9,6 +9,7 @@ int ResourceBlock::insertPacket(Packet* p){
     }
     //Here packetSize > available
     if(p->getFragment()) { //If it is a fragment insert it
+        p->setPackedSize(available);
         packets.insert(p);
         available=0;
         return available;
