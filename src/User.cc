@@ -19,24 +19,26 @@ void User::handleMessage(cMessage *msg)
     if(msg->isSelfMessage()) {
     	//send CQI to the Antenna 
         Cqi* cqiMsg = new Cqi();
-        cqiMsg->setCqiValue(computeCqi);
+        cqiMsg->setCqiValue(computeCqi());
         cqiMsg->setUserID(userID);
         send(cqiMsg,"out");
         scheduleAt(simTime()+par("timeSlotPeriod"),timeSlotTimer);
     }
     else{
+        Frame* frame = check_and_cast<Frame *>(msg);
     	long previousMsgId = 0;
     	Packet* fragmentMessage = NULL;
 
     	//scan the broadcast RBs frame arrived
     	for(int i=0; i<25; i++){
     		//check if the current RB contains packet that belong to me, otherwise skip it
-    		if(msg->_rsb[i].getUserID() == userID){
+    	    ResourceBlock* rb = frame->get_rbs(i);
+    	    if(rb->getUserID() == userID){
     			Packet* p = NULL;
-    			While(p = check_and_cast<Packet *>(msg->_rsb[i].popPacket())){
+    			while(p = check_and_cast<Packet *>(rb->popPacket())){
     				//check if the current packet is completely content in the current RB
-    				if(!p->fragment){
-    					simtime_t responseTime = simTime() - p->creation;
+    				if(!p->getFragment()){
+    					simtime_t responseTime = simTime() - p->getCreation();
     					//TODO - save response time with signal
     					delete p;
 
