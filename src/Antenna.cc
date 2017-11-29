@@ -4,6 +4,7 @@ Define_Module(Antenna);
 
 void Antenna::initialize()
 {
+    timeSlotTimer->setSchedulingPriority(9999);
     scheduleAt(simTime()+ par("timeSlotPeriod"),timeSlotTimer);
 }
 
