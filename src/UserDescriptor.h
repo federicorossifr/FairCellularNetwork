@@ -13,16 +13,17 @@ class UserDescriptor {
 
 public:
 	UserDescriptor();
-	virtual ~UserDescriptor() {;};
+	virtual ~UserDescriptor() {};
 	void insertPacket(Packet* p);
 	Packet* popPacket();
-	Packet* getHeadPacket() {return (Packet*)packetQueue.front());}
+	Packet* getHeadPacket() {return (Packet*)packetQueue.front();}
 	void setID(int value);
 	int getID();
 	void setRCVBT(int rcv);
 	int getRCVBT();
 	void setCQI(int cqi);
 	int getCQI();
+	bool hasPacket() {return (packetQueue.getLength() > 0);}
 };
 
 #endif

@@ -14,7 +14,7 @@ class Antenna : public cSimpleModule
 {
     cMessage* timeSlotTimer = new cMessage("antennaTimeSlot");
     std::vector<UserDescriptor*> users;
-    cMessage* packetTimers;
+    std::vector<cMessage*> packetTimers;
     int networkDimension;
     int cqiMap[15] = {3,3,6,11,15,20,25,36,39,50,63,72,80,93,93};
     simtime_t period;
@@ -27,8 +27,12 @@ class Antenna : public cSimpleModule
         if(a->getRCVBT() == b->getRCVBT() && a->getID() <= b->getID()) return true;
         return false;
     }
+    void resetFrame() {
+        for(int i = 0; i < 25; ++i) frame->get_rbs(i)->reset();
+    }
   protected:
     virtual void initialize();
+    virtual void finish();
     virtual void handleMessage(cMessage *msg);
   public:
     Antenna();

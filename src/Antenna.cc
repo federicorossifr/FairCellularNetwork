@@ -14,26 +14,30 @@ void Antenna::initialize()
     int dim = (int)par("n");
     networkDimension = dim;
 
-    //Create array of Timers for user packets
-    packetTimers = new cMessage[dim];
     //Initialize User Descriptors
     for(int i = 0; i < dim; ++i) {
         UserDescriptor* tmp = new UserDescriptor();
         tmp->setID(i);        users.push_back(tmp);
-        packetTimers[i].setName( (std::to_string(i)).c_str() );
+        cMessage* timTmp = new cMessage((std::to_string(i)).c_str());
+        packetTimers.push_back(timTmp);
     }
     timeSlotTimer->setSchedulingPriority(9999);
+
+    //Schedule a timer for the Timeslot
     period = par("timeSlotPeriod");
     scheduleAt(simTime()+ period,timeSlotTimer);
-    EV << period << endl;
-    for(int i = 0; i < networkDimension; ++i) {
-        scheduleAt(simTime()+exponential(1),(cMessage*)&packetTimers[i]);
+
+
+    //Schedule a timer for each queue
+    for(auto tim:packetTimers) {
+        scheduleAt(simTime()+exponential(1),tim);
     }
 }
 
 void Antenna::handleCQIMessage(Cqi* cqiMsg) {
     int uid = cqiMsg->getUserID();
     int val = cqiMsg->getCqiValue();
+    EV << "CQI Message from -- " << uid << endl;
     (users.at(uid))->setCQI(val);
     delete(cqiMsg);
 }
@@ -44,37 +48,95 @@ void Antenna::handleExpInterrarival(cMessage* msg) {
     pkt->setSize((int)uniform(1,75));
     pkt->setCreation(simTime());
     (users.at(index))->insertPacket(pkt);
-    scheduleAt(simTime()+exponential(1),(cMessage*)&packetTimers[index]);
+    scheduleAt(simTime()+exponential(1),packetTimers.at(index));
 }
 
 void Antenna::handleTimeSlot() {
-    //Sorting user descriptors using receivedBytes
-    std::sort(users.begin(),users.end(),Antenna::compareUsers);
+    //Sorting user descriptors using receivedBytes (sorting out of place)
+    std::vector<UserDescriptor*> tmpUsers = users;
+    std::sort(tmpUsers.begin(),tmpUsers.end(),Antenna::compareUsers);
     int availableResourceBlocks = 25;
     int currResourceBlockIndex = 0;
-    for(auto user:users) {
-        if(availableResourceBlocks < 1) break;
+    resetFrame();
+    for(auto user:tmpUsers) {
+        int totalBytePacked = 0;
+        EV << "Serving user: " << user->getID() << endl;
+        if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) break;
         //Retrieve CQI for the user
         int cqi = user->getCQI();
-
+        EV << "CQI: " << cqi << endl;
         //First turn, cqi not available
         if(cqi < 1) continue;
 
         //Retrieve Resource Block size for the current user
         int rbSize = cqiMap[cqi-1];
+        EV << "ResourceBlock size: " << rbSize << endl;
+
+        //Initialize first resource block;
         ResourceBlock* rb = frame->get_rbs(currResourceBlockIndex);
         rb->setSize(rbSize);
         rb->setUserID(user->getID());
         Packet* tmp;
-        while( (tmp = user->getHeadPacket()) ) {
+        while( user->hasPacket() ) {
+            tmp = user->popPacket();
+            EV << "Processing packet -- " << tmp->getId() << endl;
+            EV << "Packet size -- " << tmp->getSize() << endl;
+            EV << "Current ResourceBlock -- " << currResourceBlockIndex << endl;
+            //Try to insert packet in ResourceBlock
+            int spaceAfter = rb->insertPacket(tmp);
 
+            //Go to next Resource Block if current is full
+            if(spaceAfter==0) {
+                EV << "Resource block -- " << currResourceBlockIndex << "full" << endl;
+                rb=frame->get_rbs(++currResourceBlockIndex);
+                rb->setSize(rbSize);
+                rb->setUserID(user->getID());
+                availableResourceBlocks--;
+            }
+            if(spaceAfter>=0) {
+                EV << "Packet -- " << tmp->getId() << " inserted in ResourceBlock -- " << currResourceBlockIndex-((spaceAfter)?0:1) << endl;
+                totalBytePacked+=tmp->getSize();
+                continue;
+            }
 
-
+            //Here packet could not be inserted in current RB because it's too big
+            //Check if there is available space to insert it fragmented
+            //Size available is sum of the portion of current RB and the rest of resources block
+            EV << "Total available space: " << (rb->getAvailable()+(availableResourceBlocks-1)*rbSize) << endl;
+            if(tmp->getSize() <= rb->getAvailable()+(availableResourceBlocks-1)*rbSize) {
+                //Mark tmp as fragmented
+                EV << "Packet -- " << tmp->getId() << " can be fragmented" << endl;
+                tmp->setFragment(true);
+                Packet* tmpDup = tmp;
+                //Insert and fragment until packed size is equal to packet size
+                while(tmpDup->getSize() > tmpDup->getPackedSize()) {
+                    //If ResourceBlock is full go to next ResourceBlock;
+                    if(rb->insertPacket(tmpDup) <= 0) {
+                        rb=frame->get_rbs(++currResourceBlockIndex);
+                        rb->setSize(rbSize);
+                        rb->setUserID(user->getID());
+                        availableResourceBlocks--;
+                    }
+                    EV << "Packet -- " << tmpDup->getTreeId() << " fragment inserted" << endl;
+                    EV << "Total packed size so far: " << tmpDup->getPackedSize() << endl;
+                    if(tmpDup->getSize() > tmpDup->getPackedSize()) tmpDup = tmpDup->dup();
+                }
+                totalBytePacked+=tmp->getSize();
+            } else {
+                break;
+                // TODO - What to do??
+            }
+            EV << "==============================" << endl;
         }
-        int spaceAfter = rb->insertPacket()
+        EV << "User -- " << user->getID() << " served with -- " << totalBytePacked << " bytes" << endl;
+        user->setRCVBT(totalBytePacked);
+        //If ResourceBlock is not empty go to next
+        if(!rb->isEmpty()) {
+            EV << "ResourceBlock -- " << currResourceBlockIndex << " is not empty, skipping it" << endl;
+            currResourceBlockIndex++;
+            availableResourceBlocks--;
+        }
     }
-
-
     // TODO - Broadcast the frame
 }
 
@@ -83,6 +145,7 @@ void Antenna::handleMessage(cMessage *msg)
     if(msg->isSelfMessage()) {
         if(msg->isName("antennaTimeSlot")) {
             EV << "Timeslot" << endl;
+            handleTimeSlot();
             scheduleAt(simTime()+period,timeSlotTimer);
         } else {
             handleExpInterrarival(msg);
@@ -90,4 +153,15 @@ void Antenna::handleMessage(cMessage *msg)
     } else if(msg->isName("CQI")) { //Handle CQI message from users
         handleCQIMessage((Cqi*)msg);
     }
+}
+
+void Antenna::finish() {
+    //Cleanup timeSlotTimer
+    cancelAndDelete(timeSlotTimer);
+
+    //Cleaning up timers
+    for(auto tim:packetTimers) cancelAndDelete(tim);
+
+    //Clean up frame
+    delete(frame);
 }

@@ -4,7 +4,6 @@ Define_Module(User);
 
 void User::initialize()
 {
-	timeSlotTimer->setSchedulingPriority(1111);
     scheduleAt(simTime()+par("timeSlotPeriod"),timeSlotTimer);
 }
 
@@ -63,6 +62,8 @@ void User::handleMessage(cMessage *msg)
         Cqi* cqiMsg = new Cqi();
         cqiMsg->setCqiValue(computeCqi());
         cqiMsg->setUserID(userID);
+        cqiMsg->setSchedulingPriority(1111);
+        cqiMsg->setName("CQI");
         send(cqiMsg,"out");
         scheduleAt(simTime()+par("timeSlotPeriod"),timeSlotTimer);
     }

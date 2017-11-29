@@ -12,15 +12,17 @@ class ResourceBlock {
 	int userID=-1;
 public:
 	ResourceBlock() {packets.clear();};
-	~ResourceBlock() {;};
+	~ResourceBlock() {};
 	int insertPacket(Packet* p);
 	Packet* popPacket();
 	int getSize(){return size;};
 	int getAvailable(){return available;};
 	int getUserID(){return userID;};
-	void setSize(int s){size=s;};
+	void setSize(int s){size=available=s;};
     void setAvailable(int a){available=a;};
     void setUserID(int id){userID=id;};
+    bool isEmpty() {return (packets.getLength() == 0);}
+    void reset() {packets.clear(); size=0; available=0; userID=-1;}
 };
 
 #endif
