@@ -146,7 +146,8 @@ void Antenna::handleTimeSlot() {
             availableResourceBlocks--;
         }
     }
-    // TODO - Broadcast the frame
+    for (int i = 0; i < networkDimension; ++i)
+        send(frame->dup(),"out",i);
 }
 
 void Antenna::handleMessage(cMessage *msg)

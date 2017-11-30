@@ -25,7 +25,7 @@ void User::handleFrame(Frame* frame) {
         if(rb->getUserID() != userID) continue;
         alreadyDone = true;
         Packet* p = NULL;
-        while( (p = rb->popPacket()) ){
+        while(!(rb->isEmpty())){
            if(previousMsgId == -1 || previousMsgId != p->getTreeId()) {
                simtime_t responseTime = simTime() - p->getCreation();
                // TODO - Emit response time to signal.
