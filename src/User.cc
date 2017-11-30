@@ -16,40 +16,25 @@ int User::computeCqi() {
 void User::handleFrame(Frame* frame) {
     long previousMsgId = -1;
     Packet* fragmentMessage = NULL;
+    bool alreadyDone = false;
     //Scan the broadcast Frame
     for(int i=0; i<25; i++){
         //Check if the RB contains a packet that belongs to me.
         ResourceBlock* rb = frame->get_rbs(i);
+        if(rb->getUserID() != userID && alreadyDone) break;
         if(rb->getUserID() != userID) continue;
+        alreadyDone = true;
         Packet* p = NULL;
         while( (p = rb->popPacket()) ){
-            //Check if the current packet is not fragmented
-            if(!p->getFragment()){
-                simtime_t responseTime = simTime() - p->getCreation();
-                //TODO - Save response time with signal
-                delete p;
-                //Check if the previous packet in the current RB was the last fragment for a bigger packet
-                if(fragmentMessage != NULL){
-                    simtime_t responseTime = simTime() - fragmentMessage->getCreation();
-                    //TODO - Save response time with signal
-                    delete fragmentMessage;
-                    fragmentMessage = NULL;
-                    previousMsgId = -1;
-                }
-             }else{
-                 //The previous packet was a fragment
-                 if(previousMsgId == -1){
-                     previousMsgId = p->getId();
-                     fragmentMessage = p;
-                   //Check if this is a fragment for a different packet
-                 } else if(previousMsgId != p->getId()){
-                     simtime_t responseTime = simTime() - fragmentMessage->getCreation();
-                     //TODO - save response time with signal
-                     delete fragmentMessage;
-                     fragmentMessage = p;
-                     previousMsgId =  p->getId();
-                 }
-             }
+           if(previousMsgId == -1 || previousMsgId != p->getTreeId()) {
+               simtime_t responseTime = simTime() - p->getCreation();
+               // TODO - Emit response time to signal.
+           }
+           if(p->getFragment())
+               previousMsgId = p->getTreeId();
+           else
+               previousMsgId = -1;
+           delete p;
          }
      }
      delete frame;
