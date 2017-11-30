@@ -9,7 +9,10 @@ void User::initialize()
 
 int User::computeCqi() {
     int cqi = 1;
-    cqi = uniform(1,15);
+    if(par("uniformServ"))
+        cqi = uniform(1,15);
+    //else
+        //TODO-     BINOMIAL
     return cqi;
 }
 
