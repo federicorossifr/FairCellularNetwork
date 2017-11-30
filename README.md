@@ -1,4 +1,2 @@
 # FairCellularNetwork
-Hello!
-World!
-Mona Lisa
+Simulator for a LTE-like network cell.
