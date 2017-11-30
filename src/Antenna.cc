@@ -172,6 +172,8 @@ void Antenna::finish() {
     //Cleaning up timers
     for(auto tim:packetTimers) cancelAndDelete(tim);
     for(auto user:users) delete(user);
-    //Clean up frame
+    //Clean up frame and packet queues in frame
+    for(int i = 0; i < 25; ++i)
+        delete(frame->get_rbs(i));
     delete(frame);
 }

@@ -34,7 +34,7 @@ void User::handleFrame(Frame* frame) {
                // TODO - Emit response time to signal.
            }
            if(p->getFragment()) {
-               EV << "Packet -- " << p->getTreeId() << " is a fragment of -- " << p->getId()  << endl;
+               EV << "\tPacket -- " << p->getTreeId() << " is a fragment of -- " << p->getId()  << endl;
                previousMsgId = p->getTreeId();
            }
            else
