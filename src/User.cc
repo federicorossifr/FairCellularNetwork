@@ -14,8 +14,8 @@ int User::computeCqi() {
 }
 
 void User::handleFrame(Frame* frame) {
+    EV << "Received a frame" << endl;
     long previousMsgId = -1;
-    Packet* fragmentMessage = NULL;
     bool alreadyDone = false;
     //Scan the broadcast Frame
     for(int i=0; i<25; i++){
@@ -23,15 +23,20 @@ void User::handleFrame(Frame* frame) {
         ResourceBlock* rb = frame->get_rbs(i);
         if(rb->getUserID() != userID && alreadyDone) break;
         if(rb->getUserID() != userID) continue;
+        EV << "ResourceBlock -- " << i << " belongs to me" << endl;
         alreadyDone = true;
         Packet* p = NULL;
         while(!(rb->isEmpty())){
+           p = rb->popPacket();
            if(previousMsgId == -1 || previousMsgId != p->getTreeId()) {
+               EV << "Extracted packet -- " << p->getTreeId() << endl;
                simtime_t responseTime = simTime() - p->getCreation();
                // TODO - Emit response time to signal.
            }
-           if(p->getFragment())
+           if(p->getFragment()) {
+               EV << "Packet -- " << p->getTreeId() << " is a fragment of -- " << p->getId()  << endl;
                previousMsgId = p->getTreeId();
+           }
            else
                previousMsgId = -1;
            delete p;
