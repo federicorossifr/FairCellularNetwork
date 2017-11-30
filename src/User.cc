@@ -11,8 +11,11 @@ int User::computeCqi() {
     int cqi = 1;
     if(par("uniformServ"))
         cqi = uniform(1,15);
-    //else
-        //TODO-     BINOMIAL
+    else{
+        n = par("n");
+        cqi = binomial(14,(userID+1)/(n+1))+1;
+        EV<<"CQI"<<cqi<<" for user "<<userID<<endl;
+    }
     return cqi;
 }
 
