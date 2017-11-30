@@ -13,10 +13,8 @@ int User::computeCqi() {
         cqi = uniform(1,15);
     else{
         int n = par("n");
-        double p = (double)(userID+1)/(n+1);
-        EV<< p <<endl;
-        cqi = binomial(14,p)+1;
-        EV<<"CQI "<<cqi<<" for user "<<userID<<endl;
+        cqi = binomial(14, (double)(userID+1)/(n+1))+1;
+       // EV<<"CQI "<<cqi<<" for user "<<userID<<endl;
     }
     return cqi;
 }
