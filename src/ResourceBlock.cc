@@ -20,5 +20,5 @@ int ResourceBlock::insertPacket(Packet* p){
 }
 
 Packet* ResourceBlock::popPacket(){
-    return (Packet*)packets.pop();
+    return check_and_cast<Packet *>(packets.pop());
 }
