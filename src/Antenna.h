@@ -19,6 +19,10 @@ class Antenna : public cSimpleModule
     int cqiMap[15] = {3,3,6,11,15,20,25,36,39,50,63,72,80,93,93};
     simtime_t period;
     Frame* frame;
+    double packetRate;
+
+
+
     void handleCQIMessage(Cqi*);
     void handleExpInterrarival(cMessage*);
     void handleTimeSlot();

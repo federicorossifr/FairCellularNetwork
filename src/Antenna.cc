@@ -27,10 +27,10 @@ void Antenna::initialize()
     period = par("timeSlotPeriod");
     scheduleAt(simTime()+ period,timeSlotTimer);
 
-
+    packetRate = par("packetMeanRate");
     //Schedule a timer for each queue
     for(auto tim:packetTimers) {
-        scheduleAt(simTime()+exponential(1),tim);
+        scheduleAt(simTime()+(1/exponential(packetRate)),tim);
     }
 }
 
@@ -48,7 +48,7 @@ void Antenna::handleExpInterrarival(cMessage* msg) {
     pkt->setSize((int)uniform(1,75));
     pkt->setCreation(simTime());
     (users.at(index))->insertPacket(pkt);
-    scheduleAt(simTime()+exponential(1),packetTimers.at(index));
+    scheduleAt(simTime()+1/exponential(packetRate),packetTimers.at(index));
 }
 
 void Antenna::handleTimeSlot() {
@@ -59,9 +59,12 @@ void Antenna::handleTimeSlot() {
     int currResourceBlockIndex = 0;
     resetFrame();
     for(auto user:tmpUsers) {
-        int totalBytePacked = 0;
-        EV << "Serving user: " << user->getID() << endl;
         if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) break;
+        int totalBytePacked = 0;
+        EV << "==========================================================" << endl;
+        EV << "Serving user -- " << user->getID() << endl;
+        EV << "Number of packet in queue for user -- " << user->packetCount() << endl;
+        EV << "Available resource blocks -- " << availableResourceBlocks << endl;
         //Retrieve CQI for the user
         int cqi = user->getCQI();
         EV << "CQI: " << cqi << endl;
@@ -71,6 +74,7 @@ void Antenna::handleTimeSlot() {
         //Retrieve Resource Block size for the current user
         int rbSize = cqiMap[cqi-1];
         EV << "ResourceBlock size: " << rbSize << endl;
+        EV << "-------------------" << endl;
 
         //Initialize first resource block;
         ResourceBlock* rb = frame->get_rbs(currResourceBlockIndex);
@@ -88,14 +92,17 @@ void Antenna::handleTimeSlot() {
             //Go to next Resource Block if current is full
             if(spaceAfter==0) {
                 EV << "Resource block -- " << currResourceBlockIndex << "full" << endl;
-                rb=frame->get_rbs(++currResourceBlockIndex);
-                rb->setSize(rbSize);
-                rb->setUserID(user->getID());
                 availableResourceBlocks--;
+                if(availableResourceBlocks > 0) {
+                    rb=frame->get_rbs(++currResourceBlockIndex);
+                    rb->setSize(rbSize);
+                    rb->setUserID(user->getID());
+                }
             }
             if(spaceAfter>=0) {
                 EV << "Packet -- " << tmp->getId() << " inserted in ResourceBlock -- " << currResourceBlockIndex-((spaceAfter)?0:1) << endl;
                 totalBytePacked+=tmp->getSize();
+                EV << "-------------------" << endl;
                 continue;
             }
 
@@ -123,12 +130,14 @@ void Antenna::handleTimeSlot() {
                 }
                 totalBytePacked+=tmp->getSize();
             } else {
-                break;
+                user->undoPopPacket(tmp);
                 // TODO - What to do??
+                break;
             }
-            EV << "==============================" << endl;
+            EV << "-------------------" << endl;
         }
         EV << "User -- " << user->getID() << " served with -- " << totalBytePacked << " bytes" << endl;
+        EV << "==========================================================" << endl;
         user->setRCVBT(totalBytePacked);
         //If ResourceBlock is not empty go to next
         if(!rb->isEmpty()) {
@@ -161,7 +170,7 @@ void Antenna::finish() {
 
     //Cleaning up timers
     for(auto tim:packetTimers) cancelAndDelete(tim);
-
+    for(auto user:users) delete(user);
     //Clean up frame
     delete(frame);
 }

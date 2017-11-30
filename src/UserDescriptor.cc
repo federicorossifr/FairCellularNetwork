@@ -20,3 +20,10 @@ int UserDescriptor::getRCVBT(){return receivedBytes;}
 void UserDescriptor::setCQI(int cqi){currentCqi = cqi;}
 
 int UserDescriptor::getCQI(){return currentCqi;}
+
+void UserDescriptor::undoPopPacket(Packet* p) {
+    if(packetQueue.front())
+        packetQueue.insertBefore(packetQueue.front(),p);
+    else
+        packetQueue.insert(p);
+}

@@ -1,4 +1,5 @@
 all: checkmakefiles
+	cd src && rm -f *.exe
 	cd src && $(MAKE)
 
 clean: checkmakefiles
@@ -8,7 +9,7 @@ clean: checkmakefiles
 cleanall: checkmakefiles
 	cd src && $(MAKE) MODE=release clean
 	cd src && $(MAKE) MODE=debug clean
-	rm -f src/Makefile
+	cd src && rm -f Makefile
 
 makefiles:
 	cd src && opp_makemake -f --deep

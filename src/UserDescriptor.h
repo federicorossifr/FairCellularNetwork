@@ -16,7 +16,7 @@ public:
 	virtual ~UserDescriptor() {};
 	void insertPacket(Packet* p);
 	Packet* popPacket();
-	Packet* getHeadPacket() {return (Packet*)packetQueue.front();}
+	void undoPopPacket(Packet* p);
 	void setID(int value);
 	int getID();
 	void setRCVBT(int rcv);
@@ -24,6 +24,7 @@ public:
 	void setCQI(int cqi);
 	int getCQI();
 	bool hasPacket() {return (packetQueue.getLength() > 0);}
+	int packetCount() {return packetQueue.getLength();}
 };
 
 #endif
