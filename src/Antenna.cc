@@ -119,10 +119,12 @@ void Antenna::handleTimeSlot() {
                 while(tmpDup->getSize() > tmpDup->getPackedSize()) {
                     //If ResourceBlock is full go to next ResourceBlock;
                     if(rb->insertPacket(tmpDup) <= 0) {
-                        rb=frame->get_rbs(++currResourceBlockIndex);
-                        rb->setSize(rbSize);
-                        rb->setUserID(user->getID());
                         availableResourceBlocks--;
+                        if(availableResourceBlocks > 0) {
+                            rb=frame->get_rbs(++currResourceBlockIndex);
+                            rb->setSize(rbSize);
+                            rb->setUserID(user->getID());
+                        }
                     }
                     EV << "Packet -- " << tmpDup->getTreeId() << " fragment inserted" << endl;
                     EV << "Total packed size so far: " << tmpDup->getPackedSize() << endl;

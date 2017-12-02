@@ -2,8 +2,8 @@ simple Antenna
 {
     parameters:
         int n;
-	   	double timeSlotPeriod @unit(ms);
-	   	double packetMeanIntTime @unit(ms);   
+	   	double timeSlotPeriod @unit(s);
+	   	double packetMeanIntTime @unit(s);   
     gates:
         input in[];
         output out[];
