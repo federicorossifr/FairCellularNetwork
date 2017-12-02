@@ -37,8 +37,9 @@ void Antenna::initialize()
 void Antenna::handleCQIMessage(Cqi* cqiMsg) {
     int uid = cqiMsg->getUserID();
     int val = cqiMsg->getCqiValue();
-    EV << "CQI Message from -- " << uid << endl;
-    (users.at(uid))->setCQI(val);
+    EV << "CQI Message from -- " << uid << " -- CQI value -- " << val << endl;
+    if(uid < networkDimension)
+        (users.at(uid))->setCQI(val);
     delete(cqiMsg);
 }
 
