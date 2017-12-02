@@ -5,6 +5,7 @@ Define_Module(User);
 void User::initialize()
 {
     scheduleAt(simTime()+par("timeSlotPeriod"),timeSlotTimer);
+    resp_signal = registerSignal("resp");
 }
 
 int User::computeCqi() {
@@ -37,7 +38,7 @@ void User::handleFrame(Frame* frame) {
            if(previousMsgId == -1 || previousMsgId != p->getTreeId()) {
                EV << "Extracted packet -- " << p->getTreeId() << " size -- " << p->getSize() << endl;
                simtime_t responseTime = simTime() - p->getCreation();
-               // TODO - Emit response time to signal.
+               emit(resp_signal,responseTime);
            }
            if(p->getFragment()) {
                EV << "\tPacket -- " << p->getTreeId() << " is a fragment of -- " << p->getId()  << endl;
