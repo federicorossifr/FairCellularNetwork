@@ -25,12 +25,12 @@ void Antenna::initialize()
 
     //Schedule a timer for the Timeslot
     period = par("timeSlotPeriod");
+    EV << period << endl;
     scheduleAt(simTime()+ period,timeSlotTimer);
-
-    packetRate = par("packetMeanRate");
+    packetMeanIntTime = par("packetMeanIntTime");
     //Schedule a timer for each queue
     for(auto tim:packetTimers) {
-        scheduleAt(simTime()+(1/exponential(packetRate)),tim);
+        scheduleAt(simTime()+exponential(packetMeanIntTime),tim);
     }
 }
 
@@ -48,7 +48,7 @@ void Antenna::handleExpInterrarival(cMessage* msg) {
     pkt->setSize((int)uniform(1,75));
     pkt->setCreation(simTime());
     (users.at(index))->insertPacket(pkt);
-    scheduleAt(simTime()+1/exponential(packetRate),packetTimers.at(index));
+    scheduleAt(simTime()+exponential(packetMeanIntTime),packetTimers.at(index));
 }
 
 void Antenna::handleTimeSlot() {

@@ -14,7 +14,6 @@ int User::computeCqi() {
     else{
         int n = par("n");
         cqi = binomial(14, (double)(userID+1)/(n+1))+1;
-       // EV<<"CQI "<<cqi<<" for user "<<userID<<endl;
     }
     return cqi;
 }
@@ -27,6 +26,7 @@ void User::handleFrame(Frame* frame) {
     for(int i=0; i<25; i++){
         //Check if the RB contains a packet that belongs to me.
         ResourceBlock* rb = frame->get_rbs(i);
+        if(!rb->getSize()) continue;
         if(rb->getUserID() != userID && alreadyDone) break;
         if(rb->getUserID() != userID) continue;
         EV << "ResourceBlock -- " << i << " belongs to me" << endl;
