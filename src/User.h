@@ -20,7 +20,7 @@ class User : public cSimpleModule
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
   public:
-    User() {userID=(USER_COUNTER++)%15;}
+    User() {userID=USER_COUNTER++;}
 };
 
 #endif

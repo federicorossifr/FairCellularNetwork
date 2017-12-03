@@ -21,7 +21,9 @@ class Antenna : public cSimpleModule
     Frame* frame;
     simtime_t packetMeanIntTime;
 	simsignal_t throughputSignal;
+	std::vector<simsignal_t> queueSizeSignals;
 
+	simsignal_t createUserQueueSizeSignal(int);
     void handleCQIMessage(Cqi*);
     void handleExpInterrarival(cMessage*);
     void handleTimeSlot();
