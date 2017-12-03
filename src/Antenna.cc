@@ -46,7 +46,7 @@ void Antenna::initialize()
     packetMeanIntTime = par("packetMeanIntTime");
     //Schedule a timer for each queue
     for(auto tim:packetTimers) {
-        scheduleAt(simTime()+exponential(packetMeanIntTime),tim);
+        scheduleAt(simTime()+exponential(packetMeanIntTime,par("exponentialIntArrRNGID")),tim);
     }
 }
 
@@ -62,10 +62,10 @@ void Antenna::handleCQIMessage(Cqi* cqiMsg) {
 void Antenna::handleExpInterrarival(cMessage* msg) {
     int index = std::stoul(msg->getName());
     Packet* pkt = new Packet();
-    pkt->setSize((int)uniform(1,75));
+    pkt->setSize((int)uniform(1,75,par("exponentialSizeRNGID")));
     pkt->setCreation(simTime());
     (users.at(index))->insertPacket(pkt);
-    scheduleAt(simTime()+exponential(packetMeanIntTime),packetTimers.at(index));
+    scheduleAt(simTime()+exponential(packetMeanIntTime,par("exponentialIntArrRNGID")),packetTimers.at(index));
 }
 
 void Antenna::handleTimeSlot() {
@@ -78,7 +78,7 @@ void Antenna::handleTimeSlot() {
     resetFrame();
     for(auto user:tmpUsers) {
         emit(queueSizeSignals.at(user->getID()),user->packetCount());
-        if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) break;
+        if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) continue; //Needed to emit queue size for all users
         int totalBytePacked = 0;
         EV << "==========================================================" << endl;
         EV << "Serving user -- " << user->getID() << endl;

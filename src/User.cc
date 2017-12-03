@@ -14,7 +14,7 @@ int User::computeCqi() {
         cqi = uniform(1,15);
     else{
         int n = par("n");
-        cqi = binomial(14, (double)(userID+1)/(n+1))+1;
+        cqi = binomial(14, (double)(userID+1)/(n+1),par("CqiRNGID"))+1;
     }
     return cqi;
 }

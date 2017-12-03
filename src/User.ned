@@ -3,6 +3,7 @@ simple User{
 	   	int n;
 	   	double timeSlotPeriod @unit(s); 
 	   	bool uniformServ; 
+	   	int CqiRNGID = default(2);
 	   	@signal[resp](source="resp");
     	@statistic[resp](title="responseTime";record=vector);
 	gates:
