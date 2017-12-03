@@ -38,6 +38,7 @@ void User::handleFrame(Frame* frame) {
            if(previousMsgId == -1 || previousMsgId != p->getTreeId()) {
                EV << "Extracted packet -- " << p->getTreeId() << " size -- " << p->getSize() << endl;
                simtime_t responseTime = simTime() - p->getCreation();
+               EV << responseTime << endl;
                emit(resp_signal,responseTime);
            }
            if(p->getFragment()) {

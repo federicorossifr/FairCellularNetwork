@@ -5,7 +5,7 @@ simple Antenna
 	   	double timeSlotPeriod @unit(s);
 	   	double packetMeanIntTime @unit(s);  
 		@signal[throughput](source="throughput");
-		@statistic[throughput](title="Throughput";record=mean);		
+		@statistic[throughput](title="Throughput";record=vector);		
     gates:
         input in[];
         output out[];

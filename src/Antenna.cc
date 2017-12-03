@@ -10,7 +10,7 @@ Antenna::Antenna() {
 
 void Antenna::initialize()
 {
-    throughput_signal = registerSignal("throughput");
+    throughputSignal = registerSignal("throughput");
 
     //Retrieve network dimensions
     int dim = (int)par("n");
@@ -60,8 +60,7 @@ void Antenna::handleTimeSlot() {
     std::sort(tmpUsers.begin(),tmpUsers.end(),Antenna::compareUsers);
     int availableResourceBlocks = 25;
     int currResourceBlockIndex = 0;
-	double throughput = 0;
-	double packetSent = 0;
+	double bytesSent=0;
     resetFrame();
     for(auto user:tmpUsers) {
         if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) break;
@@ -88,7 +87,7 @@ void Antenna::handleTimeSlot() {
         Packet* tmp;
         while( user->hasPacket() ) {
             tmp = user->popPacket();
-			packetSent++;
+			bytesSent+=tmp->getSize();
             EV << "Processing packet -- " << tmp->getId() << endl;
             EV << "Packet size -- " << tmp->getSize() << endl;
             EV << "Current ResourceBlock -- " << currResourceBlockIndex << endl;
@@ -138,8 +137,8 @@ void Antenna::handleTimeSlot() {
                 }
                 totalBytePacked+=tmp->getSize();
             } else {
+				bytesSent-=tmp->getSize();
                 user->undoPopPacket(tmp);
-				packetSent--;
                 // TODO - What to do??
                 break;
             }
@@ -157,9 +156,8 @@ void Antenna::handleTimeSlot() {
     }
     for (int i = 0; i < networkDimension; ++i)
         send(frame->dup(),"out",i);
-	
-	throughput = packetSent / par("timeSlotPeriod").doubleValue();
-	emit(throughput_signal, throughput);
+	EV << "Bytes sent in this timeslot: " << bytesSent;
+	emit(throughputSignal, bytesSent/period);
 }
 
 void Antenna::handleMessage(cMessage *msg)

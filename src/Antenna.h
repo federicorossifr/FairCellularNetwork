@@ -20,7 +20,7 @@ class Antenna : public cSimpleModule
     simtime_t period;
     Frame* frame;
     simtime_t packetMeanIntTime;
-	simsignal_t throughput_signal;
+	simsignal_t throughputSignal;
 
     void handleCQIMessage(Cqi*);
     void handleExpInterrarival(cMessage*);
