@@ -90,6 +90,11 @@ xxx
 *.xdy
 *.tdo
 
+#Results
+*.vec
+*.vci
+*.anf
+
 .externalToolBuilders
 .project
 .texlipse
