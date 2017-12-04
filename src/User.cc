@@ -16,12 +16,14 @@ int User::computeCqi() {
     else if(how==1){ //Binomial case with p proportional to UID
         int n = par("n");
         cqi = binomial(14, (double)(userID+1)/(n+1),par("CqiRNGID"))+1;
-    }else{ //Binomial case with only two kinds of p, one for odd UID the other for even ones
+    }else { //Binomial case with only two kinds of p, one for odd UID the other for even ones
         int division = userID%2;
         double p = division*0.6+0.2;
         EV <<  p << endl;
         cqi = binomial(14, p,par("CqiRNGID"))+1;
     }
+    cqiSum+=cqi;
+    cqiCount++;
     return cqi;
 }
 
@@ -75,4 +77,8 @@ void User::handleMessage(cMessage *msg)
         Frame* frame = check_and_cast<Frame *>(msg);
     	handleFrame(frame);
     }
+}
+
+void User::finish() {
+    EV << (double)(cqiSum)/(double)(cqiCount) << endl;
 }

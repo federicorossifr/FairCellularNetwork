@@ -1,3 +1,7 @@
+[General]
+last-configname=binomialServices
+last-runnumber=3
+
 [RunModeProfiles]
 run-target-cpu-usage=0.8
 run-min-fps=2
