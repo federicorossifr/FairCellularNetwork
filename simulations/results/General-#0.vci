@@ -1,0 +1,176 @@
+file 4450856 1512397754                                         
+version 2
+run General-0-20171204-15:28:27-8744
+attr configname General
+attr datetime 20171204-15:28:27
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Network
+attr processid 8744
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 981839
+param Network.*.n 30
+param Network.n 30
+param Network.*.timeSlotPeriod 1ms
+param Network.antenna.packetMeanIntTime 3ms
+
+vector 0 Network.antenna user0queueSize:vector ETV
+vector 1 Network.antenna user1queueSize:vector ETV
+vector 2 Network.antenna user2queueSize:vector ETV
+vector 3 Network.antenna user3queueSize:vector ETV
+vector 4 Network.antenna user4queueSize:vector ETV
+vector 5 Network.antenna user5queueSize:vector ETV
+vector 6 Network.antenna user6queueSize:vector ETV
+vector 7 Network.antenna user7queueSize:vector ETV
+vector 8 Network.antenna user8queueSize:vector ETV
+vector 9 Network.antenna user9queueSize:vector ETV
+vector 10 Network.antenna user10queueSize:vector ETV
+vector 11 Network.antenna user11queueSize:vector ETV
+vector 12 Network.antenna user12queueSize:vector ETV
+vector 13 Network.antenna user13queueSize:vector ETV
+vector 14 Network.antenna user14queueSize:vector ETV
+vector 15 Network.antenna user15queueSize:vector ETV
+vector 16 Network.antenna user16queueSize:vector ETV
+vector 17 Network.antenna user17queueSize:vector ETV
+vector 18 Network.antenna user18queueSize:vector ETV
+vector 19 Network.antenna user19queueSize:vector ETV
+vector 20 Network.antenna user20queueSize:vector ETV
+vector 21 Network.antenna user21queueSize:vector ETV
+vector 22 Network.antenna user22queueSize:vector ETV
+vector 23 Network.antenna user23queueSize:vector ETV
+vector 24 Network.antenna user24queueSize:vector ETV
+vector 25 Network.antenna user25queueSize:vector ETV
+vector 26 Network.antenna user26queueSize:vector ETV
+vector 27 Network.antenna user27queueSize:vector ETV
+vector 28 Network.antenna user28queueSize:vector ETV
+vector 29 Network.antenna user29queueSize:vector ETV
+vector 30 Network.antenna throughput:vector ETV
+attr title "Throughput, vector"
+vector 31 Network.user[0] resp:vector ETV
+attr title "responseTime, vector"
+vector 32 Network.user[1] resp:vector ETV
+attr title "responseTime, vector"
+vector 33 Network.user[3] resp:vector ETV
+attr title "responseTime, vector"
+vector 34 Network.user[12] resp:vector ETV
+attr title "responseTime, vector"
+vector 35 Network.user[13] resp:vector ETV
+attr title "responseTime, vector"
+vector 36 Network.user[21] resp:vector ETV
+attr title "responseTime, vector"
+vector 37 Network.user[23] resp:vector ETV
+attr title "responseTime, vector"
+vector 38 Network.user[29] resp:vector ETV
+attr title "responseTime, vector"
+vector 39 Network.user[11] resp:vector ETV
+attr title "responseTime, vector"
+vector 40 Network.user[16] resp:vector ETV
+attr title "responseTime, vector"
+vector 41 Network.user[19] resp:vector ETV
+attr title "responseTime, vector"
+vector 42 Network.user[24] resp:vector ETV
+attr title "responseTime, vector"
+vector 43 Network.user[4] resp:vector ETV
+attr title "responseTime, vector"
+vector 44 Network.user[5] resp:vector ETV
+attr title "responseTime, vector"
+vector 45 Network.user[10] resp:vector ETV
+attr title "responseTime, vector"
+vector 46 Network.user[15] resp:vector ETV
+attr title "responseTime, vector"
+vector 47 Network.user[17] resp:vector ETV
+attr title "responseTime, vector"
+vector 48 Network.user[18] resp:vector ETV
+attr title "responseTime, vector"
+vector 49 Network.user[22] resp:vector ETV
+attr title "responseTime, vector"
+vector 50 Network.user[27] resp:vector ETV
+attr title "responseTime, vector"
+vector 51 Network.user[2] resp:vector ETV
+attr title "responseTime, vector"
+vector 52 Network.user[26] resp:vector ETV
+attr title "responseTime, vector"
+vector 53 Network.user[28] resp:vector ETV
+attr title "responseTime, vector"
+vector 54 Network.user[25] resp:vector ETV
+attr title "responseTime, vector"
+vector 55 Network.user[7] resp:vector ETV
+attr title "responseTime, vector"
+vector 56 Network.user[9] resp:vector ETV
+attr title "responseTime, vector"
+vector 57 Network.user[8] resp:vector ETV
+attr title "responseTime, vector"
+vector 58 Network.user[20] resp:vector ETV
+attr title "responseTime, vector"
+vector 59 Network.user[6] resp:vector ETV
+attr title "responseTime, vector"
+vector 60 Network.user[14] resp:vector ETV
+attr title "responseTime, vector"
+0	4539 88342 70 504948 0.001 5 5000 0 5 2022 2950
+1	92881 88342 70 504948 0.001 5 5000 0 7 2253 4023
+2	181223 88342 70 504948 0.001 5 5000 0 6 2091 3591
+3	269565 88342 70 504948 0.001 5 5000 0 9 3172 7000
+4	357907 88342 70 504948 0.001 5 5000 0 9 2698 5678
+5	446249 88360 70 504948 0.001 5 5000 0 12 5168 21282
+6	534609 88419 70 504948 0.001 5 5000 0 23 6191 35929
+7	623028 88437 70 504948 0.001 5 5000 0 21 6447 37943
+8	711465 88342 70 504948 0.001 5 5000 0 6 1692 2328
+9	799807 88342 70 504948 0.001 5 5000 0 6 2115 3349
+10	888149 93367 70 504948 0.001 5 5000 0 13 3818 13216
+11	981516 93342 70 504948 0.001 5 5000 0 4 1744 2458
+12	1074858 93342 70 504948 0.001 5 5000 0 5 1835 2637
+13	1168200 93342 70 504948 0.001 5 5000 0 7 2012 3348
+14	1261542 93342 70 504948 0.001 5 5000 0 4 1741 2355
+15	1354884 93342 70 504948 0.001 5 5000 0 6 1791 2609
+16	1448226 93345 70 504948 0.001 5 5000 0 10 3856 10506
+17	1541571 93342 70 504948 0.001 5 5000 0 5 1822 2558
+18	1634913 93388 70 504948 0.001 5 5000 0 17 4606 20726
+19	1728301 93342 70 504948 0.001 5 5000 0 5 1726 2332
+20	1821643 93356 70 504948 0.001 5 5000 0 12 3349 9765
+21	1914999 93364 70 504948 0.001 5 5000 0 20 5247 21575
+22	2008363 93342 70 504948 0.001 5 5000 0 9 3547 8243
+23	2101705 93370 70 504948 0.001 5 5000 0 15 5735 22695
+24	2195075 93342 70 504948 0.001 5 5000 0 5 2228 3906
+25	2288417 93342 70 504948 0.001 5 5000 0 4 1662 2210
+26	2381759 94023 70 504948 0.001 5 5000 0 25 20816 209328
+27	2475782 93342 70 504948 0.001 5 5000 0 6 1672 2498
+28	2569124 93350 70 504948 0.001 5 5000 0 10 4162 11410
+29	2662474 93342 70 504948 0.001 5 5000 0 3 1601 2073
+30	2755816 118315 70 504948 0.001 5 5000 57000 1042000 1872683000 7.81077833e+014
+31	2874131 53665 71 504949 0.001 5 1699 6.06986e-007 0.005046309033 1.18484694803 0.0014635631977023
+32	2927796 53294 72 504553 0.001 4.996 1689 1.346894e-006 0.018745213531 1.405353167577 0.0040541386681979
+33	2981090 52714 74 504252 0.001 4.993 1672 8.80566e-007 0.01410988829 2.345363071862 0.0094933915465406
+34	3033804 51261 83 503851 0.001 4.989 1626 6.3316e-008 0.00799075574 1.012109554934 0.0011489450479259
+35	3085065 52485 84 504763 0.001 4.998 1664 2.10657e-007 0.010630312987 1.188362279527 0.0025207235286169
+36	3137550 52984 92 504869 0.001 4.999 1679 9.81831e-007 0.043834124268 4.405656876 0.043024497548592
+37	3190534 53377 94 504972 0.001 5 1692 3.78908e-007 0.029015715032 4.908143612069 0.046372989913582
+38	3243911 50312 100 504877 0.001 4.999 1593 5.74258e-007 0.002247205142 0.776815175491 0.00052708304518572
+39	3294223 51586 179 503956 0.002 4.99 1634 4.86648e-007 0.004564064737 0.930629268684 0.00082803569057574
+40	3345809 53489 184 504467 0.002 4.995 1697 8.82176e-007 0.021479041409 3.018361222509 0.015855692434675
+41	3399298 53046 187 504571 0.002 4.996 1679 1.76954e-006 0.006320113947 0.860054327189 0.00067268367622008
+42	3452344 52348 192 504475 0.002 4.995 1658 4.33674e-007 0.019137540849 1.404832737827 0.0042458274835663
+43	3504692 53513 278 504953 0.003 5 1696 5.3973e-007 0.015233396723 1.852918102632 0.0063288789522164
+44	3558205 54107 279 504254 0.003 4.993 1714 1.2332e-006 0.038217625868 4.309254920073 0.047496860655535
+45	3612312 51928 284 504662 0.003 4.997 1647 2.63995e-007 0.030487091542 2.99713014384 0.023176554598784
+46	3664240 52210 289 504863 0.003 4.999 1654 1.66978e-007 0.011902969279 0.964822920995 0.0011719928288196
+47	3716450 52976 291 504669 0.003 4.997 1679 6.33851e-007 0.0056714878 0.987093484254 0.00094154839381623
+48	3769426 53001 292 504967 0.003 5 1680 5.9632e-008 0.033380049678 3.781227116743 0.041197687829605
+49	3822427 53208 296 504169 0.003 4.992 1686 4.002735e-006 0.017534558874 2.691315009242 0.01266312869044
+50	3875635 49119 301 504679 0.003 4.997 1557 4.60721e-007 0.009561247489 0.909564863799 0.0012487393663183
+51	3924754 52522 379 504850 0.004 4.999 1664 1.042899e-006 0.014835806684 1.263369147914 0.0027007649802864
+52	3977276 53254 403 504975 0.004 5 1690 1.561126e-006 0.078274258622 19.971147801656 0.59230147271364
+53	4030530 54315 405 504977 0.004 5 1721 4.10012e-007 0.023152632509 3.304162505648 0.019875653918033
+54	4084845 51306 500 504775 0.005 4.998 1626 1.17463e-006 0.006934052387 0.844851153259 0.00074127276363307
+55	4136151 51983 582 504855 0.006 4.999 1647 9.02727e-007 0.055076939892 5.608544519876 0.088494088585366
+56	4188134 52511 584 504156 0.006 4.992 1665 3.81946e-007 0.014509728294 1.278602704599 0.0024733708741274
+57	4240645 50098 780 504957 0.008 5 1589 1.53908e-007 0.004206003128 0.902908139922 0.00078274868846553
+58	4290743 53403 895 504770 0.009 4.998 1693 4.5194e-007 0.034783465823 2.506374272364 0.018688327934072
+59	4344146 53829 979 504658 0.01 4.997 1705 6.14032e-007 0.039613711042 5.326416021205 0.072997968353081
+60	4397975 52879 987 504963 0.01 5 1677 3.44901e-007 0.002945659797 0.909241784478 0.00070109208333594
+
