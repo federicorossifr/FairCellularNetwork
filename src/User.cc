@@ -18,7 +18,8 @@ int User::computeCqi() {
         cqi = binomial(14, (double)(userID+1)/(n+1),par("CqiRNGID"))+1;
     }else{ //Binomial case with only two kinds of p, one for odd UID the other for even ones
         int division = userID%2;
-        double p = division*0.5+0.25;
+        double p = division*0.6+0.2;
+        EV <<  p << endl;
         cqi = binomial(14, p,par("CqiRNGID"))+1;
     }
     return cqi;
