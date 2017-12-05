@@ -75,6 +75,7 @@ void Antenna::handleTimeSlot() {
     int availableResourceBlocks = 25;
     int currResourceBlockIndex = 0;
 	double bytesSent=0;
+	int packetSent=0;
     resetFrame();
     for(auto user:tmpUsers) {
         emit(queueSizeSignals.at(user->getID()),user->packetCount());
@@ -124,6 +125,7 @@ void Antenna::handleTimeSlot() {
             if(spaceAfter>=0) {
                 //EV << "Packet -- " << tmp->getId() << " inserted in ResourceBlock -- " << currResourceBlockIndex-((spaceAfter)?0:1) << endl;
                 totalBytePacked+=tmp->getSize();
+                packetSent ++;
                 //EV << "-------------------" << endl;
                 continue;
             }
@@ -153,6 +155,7 @@ void Antenna::handleTimeSlot() {
                     if(tmpDup->getSize() > tmpDup->getPackedSize()) tmpDup = tmpDup->dup();
                 }
                 totalBytePacked+=tmp->getSize();
+                packetSent++;
             } else {
 				bytesSent-=tmp->getSize();
                 user->undoPopPacket(tmp);
@@ -175,7 +178,7 @@ void Antenna::handleTimeSlot() {
         send(frame->dup(),"out",i);
 	//EV << "Bytes sent in this timeslot: " << bytesSent;
 	emit(throughputSignal, bytesSent/period);
-	emit(bytesPerSlotSignal,bytesSent);
+	emit(bytesPerSlotSignal,packetSent);
 }
 
 void Antenna::handleMessage(cMessage *msg)
