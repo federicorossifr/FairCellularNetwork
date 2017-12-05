@@ -21,6 +21,7 @@ class Antenna : public cSimpleModule
     Frame* frame;
     simtime_t packetMeanIntTime;
 	simsignal_t throughputSignal;
+	simsignal_t bytesPerSlotSignal;
 	std::vector<simsignal_t> queueSizeSignals;
 
 	simsignal_t createUserQueueSizeSignal(int);

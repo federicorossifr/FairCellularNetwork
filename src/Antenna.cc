@@ -23,7 +23,7 @@ simsignal_t Antenna::createUserQueueSizeSignal(int userId) {
 void Antenna::initialize()
 {
     throughputSignal = registerSignal("throughput");
-
+    bytesPerSlotSignal = registerSignal("bytesPerSlotSignal");
 
     //Retrieve network dimensions
     int dim = (int)par("n");
@@ -175,6 +175,7 @@ void Antenna::handleTimeSlot() {
         send(frame->dup(),"out",i);
 	//EV << "Bytes sent in this timeslot: " << bytesSent;
 	emit(throughputSignal, bytesSent/period);
+	emit(bytesPerSlotSignal,bytesSent);
 }
 
 void Antenna::handleMessage(cMessage *msg)
