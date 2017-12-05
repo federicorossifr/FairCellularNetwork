@@ -23,8 +23,8 @@ simsignal_t Antenna::createUserQueueSizeSignal(int userId) {
 void Antenna::initialize()
 {
     throughputSignal = registerSignal("throughput");
-    bytesPerSlotSignal = registerSignal("bytesPerSlotSignal");
-
+    bytesPerSlotSignal = registerSignal("packetsPerSlot");
+    packetSentSignal = registerSignal("packetsSent");
     //Retrieve network dimensions
     int dim = (int)par("n");
     networkDimension = dim;
@@ -125,7 +125,8 @@ void Antenna::handleTimeSlot() {
             if(spaceAfter>=0) {
                 //EV << "Packet -- " << tmp->getId() << " inserted in ResourceBlock -- " << currResourceBlockIndex-((spaceAfter)?0:1) << endl;
                 totalBytePacked+=tmp->getSize();
-                packetSent ++;
+                packetSent++;
+                emit(packetSentSignal,1);
                 //EV << "-------------------" << endl;
                 continue;
             }
@@ -156,6 +157,7 @@ void Antenna::handleTimeSlot() {
                 }
                 totalBytePacked+=tmp->getSize();
                 packetSent++;
+                emit(packetSentSignal,1);
             } else {
 				bytesSent-=tmp->getSize();
                 user->undoPopPacket(tmp);

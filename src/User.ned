@@ -6,6 +6,8 @@ simple User{
 	   	int CqiRNGID = default(2);
 	   	@signal[resp](source="resp");
     	@statistic[resp](title="responseTime";record=vector);
+    	@signal[rcvd](source="rcvd");
+    	@statistic[rcvd](title="receivedPacktes";record=count);
 	gates:
 	    input in;
 	    output out;

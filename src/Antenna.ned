@@ -8,10 +8,13 @@ simple Antenna
 	   	int exponentialSizeRNGID = default(1);	   	
 		@signal[throughput](source="throughput");
 		@statistic[throughput](title="Throughput";record=vector);		
-		@statistic[bytesPerSlotSignal](title="bytesPerSlotSignal";record=vector);		
+		@signal[packetsPerSlot]();
+		@statistic[packetsPerSlot](title="Packet per slot";record=vector);		
+		
+		@signal[packetsSent]();
+		@statistic[packetsSent](title="Packets sent";record=count);
 		
 		@signal[user*queueSize]();
-		@signal[bytesPerSlotSignal]();
 		@statisticTemplate[queueSize](record=vector);
     gates:
         input in[];

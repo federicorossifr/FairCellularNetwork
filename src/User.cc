@@ -6,6 +6,7 @@ void User::initialize()
 {
     scheduleAt(simTime()+par("timeSlotPeriod"),timeSlotTimer);
     resp_signal = registerSignal("resp");
+    packet_signal = registerSignal("rcvd");
 }
 
 int User::computeCqi() {
@@ -47,6 +48,7 @@ void User::handleFrame(Frame* frame) {
                EV << "Extracted packet -- " << p->getTreeId() << " size -- " << p->getSize() << endl;
                simtime_t responseTime = simTime() - p->getCreation();
                EV << responseTime << endl;
+               emit(packet_signal,1);
                emit(resp_signal,responseTime);
            }
            if(p->getFragment()) {
