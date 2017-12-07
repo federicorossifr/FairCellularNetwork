@@ -77,8 +77,10 @@ void Antenna::handleTimeSlot() {
     int currResourceBlockIndex = 0;
 	double bytesSent=0;
 	int packetSent=0;
+	int queueCount=0;
     resetFrame();
     for(auto user:tmpUsers) {
+        queueCount+=user->packetCount();
         emit(queueSizeSignals.at(user->getID()),user->packetCount());
         if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) continue; //Needed to emit queue size for all users
         int totalBytePacked = 0;
@@ -184,6 +186,7 @@ void Antenna::handleTimeSlot() {
 	//EV << "Bytes sent in this timeslot: " << bytesSent;
 	emit(throughputSignal, bytesSent/period);
 	emit(bytesPerSlotSignal,packetSent);
+	// TODO - Emit queue packet count here
 }
 
 void Antenna::handleMessage(cMessage *msg)
