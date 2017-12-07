@@ -26,6 +26,7 @@ void Antenna::initialize()
     bytesPerSlotSignal = registerSignal("packetsPerSlot");
     packetSentSignal = registerSignal("packetsSent");
     queueingTimeSignal = registerSignal("queueingTime");
+    queuedPacketsSignal = registerSignal("queuedPacketsPerSlot");
     //Retrieve network dimensions
     int dim = (int)par("n");
     networkDimension = dim;
@@ -186,6 +187,7 @@ void Antenna::handleTimeSlot() {
 	//EV << "Bytes sent in this timeslot: " << bytesSent;
 	emit(throughputSignal, bytesSent/period);
 	emit(bytesPerSlotSignal,packetSent);
+	emit(queuedPacketsSignal,queueCount);
 	// TODO - Emit queue packet count here
 }
 
