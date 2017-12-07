@@ -25,6 +25,7 @@ void Antenna::initialize()
     throughputSignal = registerSignal("throughput");
     bytesPerSlotSignal = registerSignal("packetsPerSlot");
     packetSentSignal = registerSignal("packetsSent");
+    queueingTimeSignal = registerSignal("queueingTime");
     //Retrieve network dimensions
     int dim = (int)par("n");
     networkDimension = dim;
@@ -127,6 +128,7 @@ void Antenna::handleTimeSlot() {
                 totalBytePacked+=tmp->getSize();
                 packetSent++;
                 emit(packetSentSignal,1);
+                emit(queueingTimeSignal,simTime()-tmp->getCreation());
                 //EV << "-------------------" << endl;
                 continue;
             }
@@ -158,6 +160,7 @@ void Antenna::handleTimeSlot() {
                 totalBytePacked+=tmp->getSize();
                 packetSent++;
                 emit(packetSentSignal,1);
+                emit(queueingTimeSignal,simTime()-tmp->getCreation());
             } else {
 				bytesSent-=tmp->getSize();
                 user->undoPopPacket(tmp);

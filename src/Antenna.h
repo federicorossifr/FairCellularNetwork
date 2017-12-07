@@ -23,6 +23,7 @@ class Antenna : public cSimpleModule
 	simsignal_t throughputSignal;
 	simsignal_t bytesPerSlotSignal;
 	simsignal_t packetSentSignal;
+	simsignal_t queueingTimeSignal;
 	std::vector<simsignal_t> queueSizeSignals;
 
 	simsignal_t createUserQueueSizeSignal(int);

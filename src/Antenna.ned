@@ -14,6 +14,9 @@ simple Antenna
 		@signal[packetsSent]();
 		@statistic[packetsSent](title="Packets sent";record=count);
 		
+		@signal[queueingTime]();
+		@statistic[queueingTime](title="Queueing time";record=vector);
+		
 		@signal[user*queueSize]();
 		@statisticTemplate[queueSize](record=vector);
     gates:
