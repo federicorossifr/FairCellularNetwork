@@ -1,0 +1,45 @@
+version 2
+run uniformServices-8-20171208-17:50:06-15508
+attr configname uniformServices
+attr datetime 20171208-17:50:06
+attr experiment uniformServices
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Network
+attr processid 15508
+attr repetition 8
+attr replication #8
+attr resultdir results
+attr runnumber 8
+attr seedset 8
+param Network.*.uniformServ 0
+param Network.*.n 10
+param Network.n 10
+param Network.*.timeSlotPeriod 1ms
+param Network.antenna.packetMeanIntTime 0.9ms
+
+scalar Network.antenna packetsSent:count 1333722
+attr title "Packets sent, count"
+scalar Network.user[0] rcvd:count 133544
+attr title "receivedPacktes, count"
+scalar Network.user[1] rcvd:count 132713
+attr title "receivedPacktes, count"
+scalar Network.user[2] rcvd:count 133431
+attr title "receivedPacktes, count"
+scalar Network.user[3] rcvd:count 133367
+attr title "receivedPacktes, count"
+scalar Network.user[4] rcvd:count 133133
+attr title "receivedPacktes, count"
+scalar Network.user[5] rcvd:count 133537
+attr title "receivedPacktes, count"
+scalar Network.user[6] rcvd:count 133869
+attr title "receivedPacktes, count"
+scalar Network.user[7] rcvd:count 133342
+attr title "receivedPacktes, count"
+scalar Network.user[8] rcvd:count 133164
+attr title "receivedPacktes, count"
+scalar Network.user[9] rcvd:count 133622
+attr title "receivedPacktes, count"
+
