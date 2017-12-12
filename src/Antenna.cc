@@ -12,7 +12,6 @@ simsignal_t Antenna::createUserQueueSizeSignal(int userId) {
     char signalName[32];
     sprintf(signalName,"user%dqueueSize", userId);
     simsignal_t sig = registerSignal(signalName);
-
     char statisticName[32];
     sprintf(statisticName,"user%dqueueSize", userId);
     cProperty* statisticTemplate = getProperties()->get("statisticTemplate","queueSize");
@@ -67,6 +66,10 @@ void Antenna::handleExpInterrarival(cMessage* msg) {
     pkt->setSize((int)uniform(1,75,par("exponentialSizeRNGID")));
     pkt->setCreation(simTime());
     (users.at(index))->insertPacket(pkt);
+    int queueCount = 0;
+    for(auto user: users)
+        queueCount+=user->packetCount();
+    emit(queuedPacketsSignal,queueCount);
     scheduleAt(simTime()+exponential(packetMeanIntTime,par("exponentialIntArrRNGID")),packetTimers.at(index));
 }
 
@@ -81,7 +84,6 @@ void Antenna::handleTimeSlot() {
 	int queueCount=0;
     resetFrame();
     for(auto user:tmpUsers) {
-        queueCount+=user->packetCount();
         emit(queueSizeSignals.at(user->getID()),user->packetCount());
         if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) continue; //Needed to emit queue size for all users
         int totalBytePacked = 0;
@@ -182,6 +184,8 @@ void Antenna::handleTimeSlot() {
             availableResourceBlocks--;
         }
     }
+    for(auto user:tmpUsers)
+            queueCount+=user->packetCount();
     for (int i = 0; i < networkDimension; ++i)
         send(frame->dup(),"out",i);
 	//EV << "Bytes sent in this timeslot: " << bytesSent;
