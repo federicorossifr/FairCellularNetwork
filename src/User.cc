@@ -11,15 +11,13 @@ void User::initialize()
 
 int User::computeCqi() {
     int cqi;
-    int how = par("uniformServ");
-    if(how==0) //Uniform case
+    bool how = par("uniformServ");
+    double sp = par("successProb");
+    if(!how) //Uniform case
         cqi = uniform(1,15);
-    else if(how==1){ //Binomial case with p proportional to UID
-        int n = par("n");
-        cqi = binomial(14, (double)(userID+1)/(n+1),par("CqiRNGID"))+1;
-    }else { //Binomial case with only two kinds of p, one for odd UID the other for even ones
+    else{
         int division = userID%2;
-        double p = division*0.6+0.2;
+        double p = (division)?sp:1-sp;
         EV <<  p << endl;
         cqi = binomial(14, p,par("CqiRNGID"))+1;
     }

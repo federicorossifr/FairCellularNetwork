@@ -1,8 +1,9 @@
 simple User{
 	parameters:
+	    double successProb;
 	   	int n;
 	   	double timeSlotPeriod @unit(s); 
-	   	int uniformServ; //0 Uniform 1 and 2 Binomial 
+	   	bool uniformServ; //false Uniform true Binomial 
 	   	int CqiRNGID = default(2);
 	   	@signal[resp](source="resp");
     	@statistic[resp](title="responseTime";record=vector);
