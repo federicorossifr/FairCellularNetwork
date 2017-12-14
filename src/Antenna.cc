@@ -45,6 +45,7 @@ void Antenna::initialize()
     EV << period << endl;
     scheduleAt(simTime()+ period,timeSlotTimer);
     packetMeanIntTime = par("packetMeanIntTime");
+    timeslotWindow = par("timeslotWindow");
     //Schedule a timer for each queue
     for(auto tim:packetTimers) {
         scheduleAt(simTime()+exponential(packetMeanIntTime,par("exponentialIntArrRNGID")),tim);
@@ -76,6 +77,14 @@ void Antenna::handleExpInterrarival(cMessage* msg) {
 void Antenna::handleTimeSlot() {
     //Sorting user descriptors using receivedBytes (sorting out of place)
     std::vector<UserDescriptor*> tmpUsers = users;
+    if(timeslotWindow == elapsedTimeslots) {
+        for(auto user:users) {
+            user->resetRCVBT();
+        }
+        EV << "rESET" << endl;
+        elapsedTimeslots=0;
+    }
+    elapsedTimeslots++;
     std::sort(tmpUsers.begin(),tmpUsers.end(),Antenna::compareUsers);
     int availableResourceBlocks = 25;
     int currResourceBlockIndex = 0;

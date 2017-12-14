@@ -6,6 +6,7 @@ simple Antenna
 	   	double packetMeanIntTime @unit(s);  
 	   	int exponentialIntArrRNGID = default(0);
 	   	int exponentialSizeRNGID = default(1);	   	
+	   	int timeslotWindow = default(-1);
 		@signal[throughput](source="throughput");
 		@statistic[throughput](title="Throughput";record=vector);		
 		@signal[packetsPerSlot]();

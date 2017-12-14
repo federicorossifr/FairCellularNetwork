@@ -1,0 +1,47 @@
+version 2
+run binomialCQITwoChunks-2-20171214-14:42:28-8396
+attr configname binomialCQITwoChunks
+attr datetime 20171214-14:42:28
+attr experiment binomialCQITwoChunks
+attr inifile omnetpp.ini
+attr iterationvars $0=0.20
+attr iterationvarsf 0.20-
+attr measurement $0=0.20
+attr network Network
+attr processid 8396
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 2
+attr seedset 0
+param Network.*.uniformServ true
+param Network.antenna.timeslotWindow -1
+param Network.*.n 10
+param Network.n 10
+param Network.*.timeSlotPeriod 1ms
+param Network.antenna.packetMeanIntTime 2ms
+param Network.*.successProb 0.20
+
+scalar Network.antenna packetsSent:count 600497
+attr title "Packets sent, count"
+scalar Network.user[0] rcvd:count 60012
+attr title "receivedPacktes, count"
+scalar Network.user[1] rcvd:count 60103
+attr title "receivedPacktes, count"
+scalar Network.user[2] rcvd:count 59803
+attr title "receivedPacktes, count"
+scalar Network.user[3] rcvd:count 59680
+attr title "receivedPacktes, count"
+scalar Network.user[4] rcvd:count 59916
+attr title "receivedPacktes, count"
+scalar Network.user[5] rcvd:count 60183
+attr title "receivedPacktes, count"
+scalar Network.user[6] rcvd:count 60104
+attr title "receivedPacktes, count"
+scalar Network.user[7] rcvd:count 60432
+attr title "receivedPacktes, count"
+scalar Network.user[8] rcvd:count 60096
+attr title "receivedPacktes, count"
+scalar Network.user[9] rcvd:count 60168
+attr title "receivedPacktes, count"
+

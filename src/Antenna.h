@@ -17,6 +17,8 @@ class Antenna : public cSimpleModule
     std::vector<cMessage*> packetTimers;
     int networkDimension;
     int cqiMap[15] = {3,3,6,11,15,20,25,36,39,50,63,72,80,93,93};
+    int elapsedTimeslots = 0;
+    int timeslotWindow = -1;
     simtime_t period;
     Frame* frame;
     simtime_t packetMeanIntTime;

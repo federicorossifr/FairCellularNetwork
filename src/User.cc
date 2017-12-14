@@ -1,4 +1,5 @@
 #include "User.h"
+#include "math.h"
 int User::USER_COUNTER=0;
 Define_Module(User);
 
@@ -19,7 +20,7 @@ int User::computeCqi() {
         int division = userID%2;
         double p = (division)?sp:1-sp;
         EV <<  p << endl;
-        cqi = binomial(14, p,par("CqiRNGID"))+1;
+        cqi = floor(binomial(14, p,par("CqiRNGID"))+1);
     }
     cqiSum+=cqi;
     cqiCount++;
