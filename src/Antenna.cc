@@ -22,7 +22,7 @@ simsignal_t Antenna::createUserQueueSizeSignal(int userId) {
 void Antenna::initialize()
 {
     throughputSignal = registerSignal("throughput");
-    bytesPerSlotSignal = registerSignal("packetsPerSlot");
+    packetPerSlotSignal = registerSignal("packetsPerSlot");
     packetSentSignal = registerSignal("packetsSent");
     queueingTimeSignal = registerSignal("queueingTime");
     queuedPacketsSignal = registerSignal("queuedPacketsPerSlot");
@@ -94,7 +94,10 @@ void Antenna::handleTimeSlot() {
     resetFrame();
     for(auto user:tmpUsers) {
         emit(queueSizeSignals.at(user->getID()),user->packetCount());
-        if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) continue; //Needed to emit queue size for all users
+        if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) {
+            emit(throughputSignal,0);
+            continue; //Needed to emit queue size for all users
+        }
         int totalBytePacked = 0;
         EV << "==========================================================" << endl;
         EV << "Serving user -- " << user->getID() << endl;
@@ -186,6 +189,7 @@ void Antenna::handleTimeSlot() {
         EV << "User -- " << user->getID() << " served with -- " << totalBytePacked << " bytes" << endl;
         //EV << "==========================================================" << endl;
         user->setRCVBT(totalBytePacked);
+        emit(throughputSignal,totalBytePacked/period);
         //If ResourceBlock is not empty go to next
         if(!rb->isEmpty()) {
             //EV << "ResourceBlock -- " << currResourceBlockIndex << " is not empty, skipping it" << endl;
@@ -198,8 +202,7 @@ void Antenna::handleTimeSlot() {
     for (int i = 0; i < networkDimension; ++i)
         send(frame->dup(),"out",i);
 	//EV << "Bytes sent in this timeslot: " << bytesSent;
-	emit(throughputSignal, bytesSent/period);
-	emit(bytesPerSlotSignal,packetSent);
+	emit(packetPerSlotSignal,packetSent);
 	emit(queuedPacketsSignal,queueCount);
 	// TODO - Emit queue packet count here
 }

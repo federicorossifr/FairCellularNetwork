@@ -5,9 +5,11 @@ Define_Module(User);
 
 void User::initialize()
 {
-    scheduleAt(simTime()+par("timeSlotPeriod"),timeSlotTimer);
+    period = par("timeSlotPeriod");
+    scheduleAt(simTime()+period,timeSlotTimer);
     resp_signal = registerSignal("resp");
     packet_signal = registerSignal("rcvd");
+    throughput_signal = registerSignal("thr");
 }
 
 int User::computeCqi() {
@@ -32,6 +34,7 @@ void User::handleFrame(Frame* frame) {
     long previousMsgId = -1;
     bool alreadyDone = false;
     //Scan the broadcast Frame
+    int byteReceived = 0;
     for(int i=0; i<25; i++){
         //Check if the RB contains a packet that belongs to me.
         ResourceBlock* rb = frame->get_rbs(i);
@@ -44,6 +47,7 @@ void User::handleFrame(Frame* frame) {
         while(!(rb->isEmpty())){
            p = rb->popPacket();
            if(previousMsgId == -1 || previousMsgId != p->getTreeId()) {
+               byteReceived+=p->getSize();
                EV << "Extracted packet -- " << p->getTreeId() << " size -- " << p->getSize() << endl;
                simtime_t responseTime = simTime() - p->getCreation();
                EV << responseTime << endl;
@@ -59,6 +63,7 @@ void User::handleFrame(Frame* frame) {
            delete p;
          }
      }
+     emit(throughput_signal,byteReceived/period);
      delete frame;
 }
 

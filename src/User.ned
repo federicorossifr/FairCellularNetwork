@@ -9,6 +9,8 @@ simple User{
     	@statistic[resp](title="responseTime";record=vector);
     	@signal[rcvd](source="rcvd");
     	@statistic[rcvd](title="receivedPacktes";record=count);
+    	@signal[thr](source="thr");
+    	@statistic[thr](title="Throughput";record=vector);
 	gates:
 	    input in;
 	    output out;

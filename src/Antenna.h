@@ -23,7 +23,7 @@ class Antenna : public cSimpleModule
     Frame* frame;
     simtime_t packetMeanIntTime;
 	simsignal_t throughputSignal;
-	simsignal_t bytesPerSlotSignal;
+	simsignal_t packetPerSlotSignal;
 	simsignal_t packetSentSignal;
 	simsignal_t queueingTimeSignal;
 	simsignal_t queuedPacketsSignal;

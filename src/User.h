@@ -10,9 +10,10 @@ using namespace omnetpp;
 
 class User : public cSimpleModule
 {
-    simsignal_t resp_signal,packet_signal;
+    simsignal_t resp_signal,packet_signal,throughput_signal;
     int userID;
     cMessage* timeSlotTimer = new cMessage("timeSlot");
+    simtime_t period;
     int cqiSum=0,cqiCount=0;
     int computeCqi();
     static int USER_COUNTER;
