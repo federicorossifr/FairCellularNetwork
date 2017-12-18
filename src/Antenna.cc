@@ -26,6 +26,7 @@ void Antenna::initialize()
     packetSentSignal = registerSignal("packetsSent");
     queueingTimeSignal = registerSignal("queueingTime");
     queuedPacketsSignal = registerSignal("queuedPacketsPerSlot");
+    emptyRB = registerSignal("emptyRB");
     //Retrieve network dimensions
     int dim = (int)par("n");
     networkDimension = dim;
@@ -33,7 +34,8 @@ void Antenna::initialize()
     //Initialize User Descriptors
     for(int i = 0; i < dim; ++i) {
         UserDescriptor* tmp = new UserDescriptor();
-        tmp->setID(i);        users.push_back(tmp);
+        tmp->setID(i);
+        users.push_back(tmp);
         queueSizeSignals.push_back(createUserQueueSizeSignal(i));
         cMessage* timTmp = new cMessage((std::to_string(i)).c_str());
         packetTimers.push_back(timTmp);
@@ -201,6 +203,7 @@ void Antenna::handleTimeSlot() {
             queueCount+=user->packetCount();
     for (int i = 0; i < networkDimension; ++i)
         send(frame->dup(),"out",i);
+    emit(emptyRB,availableResourceBlocks);
 	//EV << "Bytes sent in this timeslot: " << bytesSent;
 	emit(packetPerSlotSignal,packetSent);
 	emit(queuedPacketsSignal,queueCount);

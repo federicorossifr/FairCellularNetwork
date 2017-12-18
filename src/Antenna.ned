@@ -20,7 +20,10 @@ simple Antenna
 		
 		@signal[queuedPacketsPerSlot]();
 		@statistic[queuedPacketsPerSlot](title="Queued packets";record=vector);
-		
+
+		@signal[emptyRB]();
+		@statistic[emptyRB](title="Empty Resource Blocks";record=mean);
+
 		@signal[user*queueSize]();
 		@statisticTemplate[queueSize](record=vector);
     gates:
