@@ -43,11 +43,12 @@ void Antenna::initialize()
     timeSlotTimer->setSchedulingPriority(9999);
 
     //Schedule a timer for the Timeslot
+    useWindow = par("windowing");
+    windowWeight = par("windowingWeight");
     period = par("timeSlotPeriod");
     EV << period << endl;
     scheduleAt(simTime()+ period,timeSlotTimer);
     packetMeanIntTime = par("packetMeanIntTime");
-    timeslotWindow = par("timeslotWindow");
     //Schedule a timer for each queue
     for(auto tim:packetTimers) {
         scheduleAt(simTime()+exponential(packetMeanIntTime,par("exponentialIntArrRNGID")),tim);
@@ -79,14 +80,6 @@ void Antenna::handleExpInterrarival(cMessage* msg) {
 void Antenna::handleTimeSlot() {
     //Sorting user descriptors using receivedBytes (sorting out of place)
     std::vector<UserDescriptor*> tmpUsers = users;
-    if(timeslotWindow == elapsedTimeslots) {
-        for(auto user:users) {
-            user->resetRCVBT();
-        }
-        EV << "rESET" << endl;
-        elapsedTimeslots=0;
-    }
-    elapsedTimeslots++;
     std::sort(tmpUsers.begin(),tmpUsers.end(),Antenna::compareUsers);
     int availableResourceBlocks = 25;
     int currResourceBlockIndex = 0;
@@ -101,23 +94,12 @@ void Antenna::handleTimeSlot() {
             continue; //Needed to emit queue size for all users
         }
         int totalBytePacked = 0;
-        EV << "==========================================================" << endl;
-        EV << "Serving user -- " << user->getID() << endl;
-        EV << "Number of packet in queue for user -- " << user->packetCount() << endl;
-
-        EV << "Total bytes received so far -- " << user->getRCVBT() << endl;
-        EV << "Available resource blocks -- " << availableResourceBlocks << endl;
-        //Retrieve CQI for the user
         int cqi = user->getCQI();
         EV << "CQI: " << cqi << endl;
         //First turn, cqi not available
         if(cqi < 1) continue;
-
         //Retrieve Resource Block size for the current user
         int rbSize = cqiMap[cqi-1];
-        EV << "ResourceBlock size: " << rbSize << endl;
-        //EV << "-------------------" << endl;
-
         //Initialize first resource block;
         ResourceBlock* rb = frame->get_rbs(currResourceBlockIndex);
         rb->setSize(rbSize);
@@ -126,15 +108,9 @@ void Antenna::handleTimeSlot() {
         while( user->hasPacket() ) {
             tmp = user->popPacket();
 			bytesSent+=tmp->getSize();
-            //EV << "Processing packet -- " << tmp->getId() << endl;
-            //EV << "Packet size -- " << tmp->getSize() << endl;
-            //EV << "Current ResourceBlock -- " << currResourceBlockIndex << endl;
-            //Try to insert packet in ResourceBlock
             int spaceAfter = rb->insertPacket(tmp);
-
             //Go to next Resource Block if current is full
             if(spaceAfter==0) {
-                //EV << "Resource block -- " << currResourceBlockIndex << "full" << endl;
                 availableResourceBlocks--;
                 if(availableResourceBlocks > 0) {
                     rb=frame->get_rbs(++currResourceBlockIndex);
@@ -143,22 +119,17 @@ void Antenna::handleTimeSlot() {
                 }
             }
             if(spaceAfter>=0) {
-                //EV << "Packet -- " << tmp->getId() << " inserted in ResourceBlock -- " << currResourceBlockIndex-((spaceAfter)?0:1) << endl;
                 totalBytePacked+=tmp->getSize();
                 packetSent++;
                 emit(packetSentSignal,1);
                 emit(queueingTimeSignal,simTime()-tmp->getCreation());
-                //EV << "-------------------" << endl;
                 continue;
             }
-
             //Here packet could not be inserted in current RB because it's too big
             //Check if there is available space to insert it fragmented
             //Size available is sum of the portion of current RB and the rest of resources block
-            //EV << "Total available space: " << (rb->getAvailable()+(availableResourceBlocks-1)*rbSize) << endl;
             if(tmp->getSize() <= rb->getAvailable()+(availableResourceBlocks-1)*rbSize) {
                 //Mark tmp as fragmented
-                //EV << "Packet -- " << tmp->getId() << " can be fragmented" << endl;
                 tmp->setFragment(true);
                 Packet* tmpDup = tmp;
                 //Insert and fragment until packed size is equal to packet size
@@ -172,8 +143,6 @@ void Antenna::handleTimeSlot() {
                             rb->setUserID(user->getID());
                         }
                     }
-                    //EV << "Packet -- " << tmpDup->getTreeId() << " fragment inserted" << endl;
-                    //EV << "Total packed size so far: " << tmpDup->getPackedSize() << endl;
                     if(tmpDup->getSize() > tmpDup->getPackedSize()) tmpDup = tmpDup->dup();
                 }
                 totalBytePacked+=tmp->getSize();
@@ -183,18 +152,17 @@ void Antenna::handleTimeSlot() {
             } else {
 				bytesSent-=tmp->getSize();
                 user->undoPopPacket(tmp);
-                // TODO - What to do??
                 break;
             }
-            //EV << "-------------------" << endl;
         }
-        EV << "User -- " << user->getID() << " served with -- " << totalBytePacked << " bytes" << endl;
-        //EV << "==========================================================" << endl;
-        user->setRCVBT(totalBytePacked);
+
+        if(useWindow)
+            user->setRCVBT(totalBytePacked,windowWeight);
+        else
+            user->setRCVBT(totalBytePacked);
         emit(throughputSignal,totalBytePacked/period);
         //If ResourceBlock is not empty go to next
         if(!rb->isEmpty()) {
-            //EV << "ResourceBlock -- " << currResourceBlockIndex << " is not empty, skipping it" << endl;
             currResourceBlockIndex++;
             availableResourceBlocks--;
         }
@@ -204,10 +172,8 @@ void Antenna::handleTimeSlot() {
     for (int i = 0; i < networkDimension; ++i)
         send(frame->dup(),"out",i);
     emit(emptyRB,availableResourceBlocks);
-	//EV << "Bytes sent in this timeslot: " << bytesSent;
 	emit(packetPerSlotSignal,packetSent);
 	emit(queuedPacketsSignal,queueCount);
-	// TODO - Emit queue packet count here
 }
 
 void Antenna::handleMessage(cMessage *msg)

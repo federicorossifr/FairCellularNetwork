@@ -20,6 +20,7 @@ public:
 	void setID(int value);
 	int getID();
 	void setRCVBT(int rcv);
+    void setRCVBT(int rcv,double alpha);
 	void resetRCVBT() {receivedBytes=0;}
 	int getRCVBT();
 	void setCQI(int cqi);

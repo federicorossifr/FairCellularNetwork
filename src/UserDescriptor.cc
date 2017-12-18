@@ -14,6 +14,10 @@ void UserDescriptor::setID(int value){userID = value;}
 int UserDescriptor::getID(){return userID;}
 
 void UserDescriptor::setRCVBT(int rcv){receivedBytes += rcv;}
+void UserDescriptor::setRCVBT(int rcv,double alpha){
+        receivedBytes = ((double)(receivedBytes)*(1-alpha) + (double)(rcv)*alpha);
+}
+
 
 int UserDescriptor::getRCVBT(){return receivedBytes;}
 

@@ -17,8 +17,6 @@ class Antenna : public cSimpleModule
     std::vector<cMessage*> packetTimers;
     int networkDimension;
     int cqiMap[15] = {3,3,6,11,15,20,25,36,39,50,63,72,80,93,93};
-    int elapsedTimeslots = 0;
-    int timeslotWindow = -1;
     simtime_t period;
     Frame* frame;
     simtime_t packetMeanIntTime;
@@ -29,7 +27,8 @@ class Antenna : public cSimpleModule
 	simsignal_t queuedPacketsSignal;
 	simsignal_t emptyRB;
 	std::vector<simsignal_t> queueSizeSignals;
-
+	bool useWindow;
+	double windowWeight;
 	simsignal_t createUserQueueSizeSignal(int);
     void handleCQIMessage(Cqi*);
     void handleExpInterrarival(cMessage*);
