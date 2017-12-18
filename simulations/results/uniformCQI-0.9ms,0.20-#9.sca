@@ -1,0 +1,86 @@
+version 2
+run uniformCQI-29-20171218-10:27:12-13808
+attr configname uniformCQI
+attr datetime 20171218-10:27:12
+attr experiment uniformCQI
+attr inifile omnetpp.ini
+attr iterationvars "$0=0.9ms, $1=0.20"
+attr iterationvarsf 0.9ms,0.20-
+attr measurement "$0=0.9ms, $1=0.20"
+attr network Network
+attr processid 13808
+attr repetition 9
+attr replication #9
+attr resultdir results
+attr runnumber 29
+attr seedset 9
+param Network.*.uniformServ false
+param Network.*.n 10
+param Network.n 10
+param Network.*.timeSlotPeriod 1ms
+param Network.antenna.packetMeanIntTime 0.9ms
+param Network.*.successProb 0.20
+
+scalar Network.antenna packetsSent:count 999548
+attr title "Packets sent, count"
+scalar Network.user[0] thr:sum 3738073000
+attr title "Throughput, sum"
+scalar Network.user[0] rcvd:count 99699
+attr title "receivedPacktes, count"
+scalar Network.user[0] resp:mean 0.0016875505445168
+attr title "responseTime, mean"
+scalar Network.user[1] thr:sum 3783928000
+attr title "Throughput, sum"
+scalar Network.user[1] rcvd:count 100805
+attr title "receivedPacktes, count"
+scalar Network.user[1] resp:mean 0.0037653879357911
+attr title "responseTime, mean"
+scalar Network.user[2] thr:sum 3735833000
+attr title "Throughput, sum"
+scalar Network.user[2] rcvd:count 99994
+attr title "receivedPacktes, count"
+scalar Network.user[2] resp:mean 0.00062950885726013
+attr title "responseTime, mean"
+scalar Network.user[3] thr:sum 3758534000
+attr title "Throughput, sum"
+scalar Network.user[3] rcvd:count 100095
+attr title "receivedPacktes, count"
+scalar Network.user[3] resp:mean 0.0040930218046322
+attr title "responseTime, mean"
+scalar Network.user[4] thr:sum 3738415000
+attr title "Throughput, sum"
+scalar Network.user[4] rcvd:count 99727
+attr title "receivedPacktes, count"
+scalar Network.user[4] resp:mean 0.00054209048100782
+attr title "responseTime, mean"
+scalar Network.user[5] thr:sum 3746135000
+attr title "Throughput, sum"
+scalar Network.user[5] rcvd:count 99791
+attr title "receivedPacktes, count"
+scalar Network.user[5] resp:mean 0.00091252667336772
+attr title "responseTime, mean"
+scalar Network.user[6] thr:sum 3746045000
+attr title "Throughput, sum"
+scalar Network.user[6] rcvd:count 99777
+attr title "receivedPacktes, count"
+scalar Network.user[6] resp:mean 0.0021801255486759
+attr title "responseTime, mean"
+scalar Network.user[7] thr:sum 3734087000
+attr title "Throughput, sum"
+scalar Network.user[7] rcvd:count 99700
+attr title "receivedPacktes, count"
+scalar Network.user[7] resp:mean 0.00066458063269592
+attr title "responseTime, mean"
+scalar Network.user[8] thr:sum 3744448000
+attr title "Throughput, sum"
+scalar Network.user[8] rcvd:count 99957
+attr title "receivedPacktes, count"
+scalar Network.user[8] resp:mean 0.00092513153688016
+attr title "responseTime, mean"
+scalar Network.user[9] thr:sum 3750804000
+attr title "Throughput, sum"
+scalar Network.user[9] rcvd:count 100003
+attr title "receivedPacktes, count"
+scalar Network.user[9] resp:mean 0.00089083770985235
+attr title "responseTime, mean"
+
