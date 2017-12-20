@@ -194,7 +194,6 @@ void Antenna::handleMessage(cMessage *msg)
 void Antenna::finish() {
     //Cleanup timeSlotTimer
     cancelAndDelete(timeSlotTimer);
-
     //Cleaning up timers
     for(auto tim:packetTimers) cancelAndDelete(tim);
     for(auto user:users) delete(user);

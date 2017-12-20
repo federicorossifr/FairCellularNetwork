@@ -10,6 +10,7 @@ void User::initialize()
     resp_signal = registerSignal("resp");
     packet_signal = registerSignal("rcvd");
     throughput_signal = registerSignal("thr");
+    served_signal = registerSignal("served");
 }
 
 int User::computeCqi() {
@@ -63,6 +64,7 @@ void User::handleFrame(Frame* frame) {
            delete p;
          }
      }
+     if(byteReceived > 0) emit(served_signal,1);
      emit(throughput_signal,byteReceived/period);
      delete frame;
 }

@@ -10,7 +10,7 @@ using namespace omnetpp;
 
 class User : public cSimpleModule
 {
-    simsignal_t resp_signal,packet_signal,throughput_signal;
+    simsignal_t resp_signal,packet_signal,throughput_signal,served_signal;
     int userID;
     cMessage* timeSlotTimer = new cMessage("timeSlot");
     simtime_t period;
