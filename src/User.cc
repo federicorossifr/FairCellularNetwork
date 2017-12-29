@@ -42,7 +42,6 @@ void User::handleFrame(Frame* frame) {
         if(!rb->getSize()) continue;
         if(rb->getUserID() != userID && alreadyDone) break;
         if(rb->getUserID() != userID) continue;
-        //EV << "ResourceBlock -- " << i << " belongs to me" << endl;
         alreadyDone = true;
         Packet* p = NULL;
         while(!(rb->isEmpty())){
@@ -56,7 +55,6 @@ void User::handleFrame(Frame* frame) {
                emit(resp_signal,responseTime);
            }
            if(p->getFragment()) {
-               //EV << "\tPacket -- " << p->getTreeId() << " is a fragment of -- " << p->getId()  << endl;
                previousMsgId = p->getTreeId();
            }
            else

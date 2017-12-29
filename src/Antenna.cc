@@ -8,6 +8,9 @@ Antenna::Antenna() {
         frame->set_rbs(i,new ResourceBlock());
 }
 
+/* This method is used to create statistics with
+ * runtime-choose name, for user queues.
+ */
 simsignal_t Antenna::createUserQueueSizeSignal(int userId) {
     char signalName[32];
     sprintf(signalName,"user%dqueueSize", userId);
@@ -27,6 +30,7 @@ void Antenna::initialize()
     queueingTimeSignal = registerSignal("queueingTime");
     queuedPacketsSignal = registerSignal("queuedPacketsPerSlot");
     emptyRB = registerSignal("emptyRB");
+
     //Retrieve network dimensions
     int dim = (int)par("n");
     networkDimension = dim;
@@ -46,9 +50,9 @@ void Antenna::initialize()
     useWindow = par("windowing");
     windowWeight = par("windowingWeight");
     period = par("timeSlotPeriod");
-    EV << period << endl;
     scheduleAt(simTime()+ period,timeSlotTimer);
     packetMeanIntTime = par("packetMeanIntTime");
+
     //Schedule a timer for each queue
     for(auto tim:packetTimers) {
         scheduleAt(simTime()+exponential(packetMeanIntTime,par("exponentialIntArrRNGID")),tim);
@@ -86,17 +90,19 @@ void Antenna::handleTimeSlot() {
 	double bytesSent=0;
 	int packetSent=0;
 	int queueCount=0;
+
+	//Empty frame and resource blocks to be used in this timeslot
     resetFrame();
     for(auto user:tmpUsers) {
         emit(queueSizeSignals.at(user->getID()),user->packetCount());
         if(availableResourceBlocks < 1 || currResourceBlockIndex >= 25) {
             emit(throughputSignal,0);
-            continue; //Needed to emit queue size for all users
+            continue; //We do not break here to emit throughput "0" for each user
         }
         int totalBytePacked = 0;
         int cqi = user->getCQI();
         EV << "CQI: " << cqi << endl;
-        //First turn, cqi not available
+        //CQI maybe not available, skip this user if so
         if(cqi < 1) continue;
         //Retrieve Resource Block size for the current user
         int rbSize = cqiMap[cqi-1];
@@ -109,6 +115,7 @@ void Antenna::handleTimeSlot() {
             tmp = user->popPacket();
 			bytesSent+=tmp->getSize();
             int spaceAfter = rb->insertPacket(tmp);
+
             //Go to next Resource Block if current is full
             if(spaceAfter==0) {
                 availableResourceBlocks--;
@@ -118,6 +125,7 @@ void Antenna::handleTimeSlot() {
                     rb->setUserID(user->getID());
                 }
             }
+            //Whole packet successfully inserted in the current resource block
             if(spaceAfter>=0) {
                 totalBytePacked+=tmp->getSize();
                 packetSent++;
@@ -129,12 +137,14 @@ void Antenna::handleTimeSlot() {
             //Check if there is available space to insert it fragmented
             //Size available is sum of the portion of current RB and the rest of resources block
             if(tmp->getSize() <= rb->getAvailable()+(availableResourceBlocks-1)*rbSize) {
-                //Mark tmp as fragmented
+                //Mark the packet as a "fragment"
                 tmp->setFragment(true);
                 Packet* tmpDup = tmp;
+
                 //Insert and fragment until packed size is equal to packet size
                 while(tmpDup->getSize() > tmpDup->getPackedSize()) {
-                    //If ResourceBlock is full go to next ResourceBlock;
+
+                    //If ResourceBlock is full go to next ResourceBlock
                     if(rb->insertPacket(tmpDup) <= 0) {
                         availableResourceBlocks--;
                         if(availableResourceBlocks > 0) {
@@ -143,6 +153,8 @@ void Antenna::handleTimeSlot() {
                             rb->setUserID(user->getID());
                         }
                     }
+                    //If the packet has not been inserted create another copy as a fragment
+                    //This is required by Omnet++ to have an unique holder for each packet.
                     if(tmpDup->getSize() > tmpDup->getPackedSize()) tmpDup = tmpDup->dup();
                 }
                 totalBytePacked+=tmp->getSize();
@@ -150,16 +162,29 @@ void Antenna::handleTimeSlot() {
                 emit(packetSentSignal,1);
                 emit(queueingTimeSignal,simTime()-tmp->getCreation());
             } else {
+                //Undo previous operation done before
+                //knowing if packet could be inserted
 				bytesSent-=tmp->getSize();
                 user->undoPopPacket(tmp);
+
+                //We'll skip to the next user if the packet cannot be inserted in this turn
                 break;
             }
         }
 
+        //Use or not the weighted historical average
+        //according to the parameter in the Antenna.ned file.
         if(useWindow)
             user->setRCVBT(totalBytePacked,windowWeight);
         else
             user->setRCVBT(totalBytePacked);
+
+        //Emit throughput for the current user
+        //Note that the same value could be obtained
+        //summing up all the "totalBytePacked" and
+        //then dividing by simualation duration,
+        //since all timeslots last the same amount
+        //of time (so no ratio game here)
         emit(throughputSignal,totalBytePacked/period);
         //If ResourceBlock is not empty go to next
         if(!rb->isEmpty()) {
@@ -167,6 +192,10 @@ void Antenna::handleTimeSlot() {
             availableResourceBlocks--;
         }
     }
+
+    //Emit queue size statistic by
+    //summing up all the packet in different
+    //user queues.
     for(auto user:tmpUsers)
             queueCount+=user->packetCount();
     for (int i = 0; i < networkDimension; ++i)

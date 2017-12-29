@@ -18,7 +18,7 @@ simple Antenna
 		@statistic[packetsSent](title="Packets sent";record=count);
 		
 		@signal[queueingTime]();
-		@statistic[queueingTime](title="Queueing time";record=vector);
+		@statistic[queueingTime](title="Queueing time";record=mean);
 		
 		@signal[queuedPacketsPerSlot]();
 		@statistic[queuedPacketsPerSlot](title="Queued packets";record=mean);
