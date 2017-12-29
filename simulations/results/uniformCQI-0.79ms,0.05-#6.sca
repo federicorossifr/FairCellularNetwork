@@ -1,0 +1,47 @@
+version 2
+run uniformCQI-6-20171218-17:11:37-2200
+attr configname uniformCQI
+attr datetime 20171218-17:11:37
+attr experiment uniformCQI
+attr inifile omnetpp.ini
+attr iterationvars "$0=0.79ms, $1=0.05"
+attr iterationvarsf 0.79ms,0.05-
+attr measurement "$0=0.79ms, $1=0.05"
+attr network Network
+attr processid 2200
+attr repetition 6
+attr replication #6
+attr resultdir results
+attr runnumber 6
+attr seedset 6
+param Network.*.uniformServ false
+param Network.*.n 10
+param Network.n 10
+param Network.*.timeSlotPeriod 1ms
+param Network.antenna.packetMeanIntTime 0.79ms
+param Network.*.successProb 0.05
+param Network.antenna.timeslotWindow -1
+
+scalar Network.antenna packetsSent:count 1517854
+attr title "Packets sent, count"
+scalar Network.user[0] rcvd:count 151488
+attr title "receivedPacktes, count"
+scalar Network.user[1] rcvd:count 151975
+attr title "receivedPacktes, count"
+scalar Network.user[2] rcvd:count 151932
+attr title "receivedPacktes, count"
+scalar Network.user[3] rcvd:count 151887
+attr title "receivedPacktes, count"
+scalar Network.user[4] rcvd:count 151913
+attr title "receivedPacktes, count"
+scalar Network.user[5] rcvd:count 151997
+attr title "receivedPacktes, count"
+scalar Network.user[6] rcvd:count 151309
+attr title "receivedPacktes, count"
+scalar Network.user[7] rcvd:count 151746
+attr title "receivedPacktes, count"
+scalar Network.user[8] rcvd:count 151659
+attr title "receivedPacktes, count"
+scalar Network.user[9] rcvd:count 151948
+attr title "receivedPacktes, count"
+
