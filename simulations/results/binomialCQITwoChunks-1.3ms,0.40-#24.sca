@@ -1,0 +1,149 @@
+version 2
+run binomialCQITwoChunks-24-20171227-14:10:12-11616
+attr configname binomialCQITwoChunks
+attr datetime 20171227-14:10:12
+attr experiment binomialCQITwoChunks
+attr inifile omnetpp.ini
+attr iterationvars "$0=1.3ms, $1=0.40"
+attr iterationvarsf 1.3ms,0.40-
+attr measurement "$0=1.3ms, $1=0.40"
+attr network Network
+attr processid 11616
+attr repetition 24
+attr replication #24
+attr resultdir results
+attr runnumber 24
+attr seedset 24
+param Network.*.uniformServ true
+param Network.antenna.timeslotWindow -1
+param Network.*.n 10
+param Network.n 10
+param Network.*.timeSlotPeriod 1ms
+param Network.antenna.packetMeanIntTime 1.3ms
+param Network.antenna.windowing true
+param Network.antenna.windowingWeight 0.40
+param Network.*.successProb 0.2
+
+scalar Network.antenna user9queueSize:mean 1.3792416666667
+scalar Network.antenna user8queueSize:mean 0.9454
+scalar Network.antenna user7queueSize:mean 1.3760083333333
+scalar Network.antenna user6queueSize:mean 0.955475
+scalar Network.antenna user5queueSize:mean 1.3353
+scalar Network.antenna user4queueSize:mean 0.95766666666667
+scalar Network.antenna user3queueSize:mean 1.353275
+scalar Network.antenna user2queueSize:mean 0.94970833333333
+scalar Network.antenna user1queueSize:mean 1.3398166666667
+scalar Network.antenna user0queueSize:mean 0.95334166666667
+scalar Network.antenna emptyRB:mean 4.0045999488895
+attr title "Empty Resource Blocks, mean"
+scalar Network.antenna queuedPacketsPerSlot:mean 8.1592852209061
+attr title "Queued packets, mean"
+scalar Network.antenna queueingTime:mean 0.0010037955777218
+attr title "Queueing time, mean"
+scalar Network.antenna packetsSent:count 691790
+attr title "Packets sent, count"
+scalar Network.antenna packetsPerSlot:mean 7.6864701503317
+attr title "Packet per slot, mean"
+scalar Network.antenna throughput:mean 28829.217453139
+attr title "Throughput, mean"
+scalar Network.user[0] served:count 44851
+attr title "Timeslot served, count"
+scalar Network.user[0] thr:mean 28945.278385796
+attr title "Throughput, mean"
+scalar Network.user[0] thr:sum 2605104000
+attr title "Throughput, sum"
+scalar Network.user[0] rcvd:count 69617
+attr title "receivedPacktes, count"
+scalar Network.user[0] resp:mean 0.00073878135404468
+attr title "responseTime, mean"
+scalar Network.user[1] served:count 42445
+attr title "Timeslot served, count"
+scalar Network.user[1] thr:mean 28801.079988
+attr title "Throughput, mean"
+scalar Network.user[1] thr:sum 2592126000
+attr title "Throughput, sum"
+scalar Network.user[1] rcvd:count 68891
+attr title "receivedPacktes, count"
+scalar Network.user[1] resp:mean 0.0012480415925841
+attr title "responseTime, mean"
+scalar Network.user[2] served:count 44573
+attr title "Timeslot served, count"
+scalar Network.user[2] thr:mean 28789.735669604
+attr title "Throughput, mean"
+scalar Network.user[2] thr:sum 2591105000
+attr title "Throughput, sum"
+scalar Network.user[2] rcvd:count 69113
+attr title "receivedPacktes, count"
+scalar Network.user[2] resp:mean 0.00074486891460994
+attr title "responseTime, mean"
+scalar Network.user[3] served:count 42624
+attr title "Timeslot served, count"
+scalar Network.user[3] thr:mean 28950.822768636
+attr title "Throughput, mean"
+scalar Network.user[3] thr:sum 2605603000
+attr title "Throughput, sum"
+scalar Network.user[3] rcvd:count 69514
+attr title "receivedPacktes, count"
+scalar Network.user[3] resp:mean 0.0012639999405729
+attr title "responseTime, mean"
+scalar Network.user[4] served:count 44800
+attr title "Timeslot served, count"
+scalar Network.user[4] thr:mean 28902.912189865
+attr title "Throughput, mean"
+scalar Network.user[4] thr:sum 2601291000
+attr title "Throughput, sum"
+scalar Network.user[4] rcvd:count 69337
+attr title "receivedPacktes, count"
+scalar Network.user[4] resp:mean 0.00074873936706465
+attr title "responseTime, mean"
+scalar Network.user[5] served:count 42538
+attr title "Timeslot served, count"
+scalar Network.user[5] thr:mean 28582.5379718
+attr title "Throughput, mean"
+scalar Network.user[5] thr:sum 2572457000
+attr title "Throughput, sum"
+scalar Network.user[5] rcvd:count 68698
+attr title "receivedPacktes, count"
+scalar Network.user[5] resp:mean 0.0012384421766369
+attr title "responseTime, mean"
+scalar Network.user[6] served:count 44467
+attr title "Timeslot served, count"
+scalar Network.user[6] thr:mean 28642.63730403
+attr title "Throughput, mean"
+scalar Network.user[6] thr:sum 2577866000
+attr title "Throughput, sum"
+scalar Network.user[6] rcvd:count 68826
+attr title "receivedPacktes, count"
+scalar Network.user[6] resp:mean 0.00074957980122149
+attr title "responseTime, mean"
+scalar Network.user[7] served:count 42470
+attr title "Timeslot served, count"
+scalar Network.user[7] thr:mean 29006.58881568
+attr title "Throughput, mean"
+scalar Network.user[7] thr:sum 2610622000
+attr title "Throughput, sum"
+scalar Network.user[7] rcvd:count 69417
+attr title "receivedPacktes, count"
+scalar Network.user[7] resp:mean 0.0012739579727199
+attr title "responseTime, mean"
+scalar Network.user[8] served:count 44591
+attr title "Timeslot served, count"
+scalar Network.user[8] thr:mean 28839.901778869
+attr title "Throughput, mean"
+scalar Network.user[8] thr:sum 2595620000
+attr title "Throughput, sum"
+scalar Network.user[8] rcvd:count 69188
+attr title "receivedPacktes, count"
+scalar Network.user[8] resp:mean 0.00073789401112657
+attr title "responseTime, mean"
+scalar Network.user[9] served:count 42473
+attr title "Timeslot served, count"
+scalar Network.user[9] thr:mean 28830.679659115
+attr title "Throughput, mean"
+scalar Network.user[9] thr:sum 2594790000
+attr title "Throughput, sum"
+scalar Network.user[9] rcvd:count 69189
+attr title "receivedPacktes, count"
+scalar Network.user[9] resp:mean 0.0012948182180801
+attr title "responseTime, mean"
+
