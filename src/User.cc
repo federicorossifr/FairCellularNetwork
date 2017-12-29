@@ -5,13 +5,13 @@ Define_Module(User);
 
 void User::initialize()
 {
-    period = par("timeSlotPeriod"); //Time elapsed from two CQI generation 
+    period = par("timeSlotPeriod"); //Time between two CQI generation
     scheduleAt(simTime()+period,timeSlotTimer); //Signal associated to the trasmission of a CQI to the antenna
 
     //Statistics registration
     resp_signal = registerSignal("resp"); //User's response time 
     packet_signal = registerSignal("rcvd");//Number of packet received by the user
-    throughput_signal = registerSignal("thr");//User's throughtpu
+    throughput_signal = registerSignal("thr");//User's throughtput
     served_signal = registerSignal("served");//Number of "useful" timeslot for the user
 }
 
@@ -27,21 +27,21 @@ int User::computeCqi() {
         EV <<  p << endl;
         cqi = floor(binomial(14, p,par("CqiRNGID"))+1);
     }
-    //The follow two variable are used to calculate the CQI mean value at the end of the simulation
+    //The following two variables are used to calculate the CQI mean value at the end of the simulation
     cqiSum+=cqi;
     cqiCount++;
     return cqi;
 }
 
 /*
-* This method is used to let the user catch packet that belongs to him from the Frame sended by the Antenna on each timeslot
+* This method is used to let the user catch packets that belongs to him from the Frame sended by the Antenna on each timeslot
 */
 void User::handleFrame(Frame* frame) {
     EV << "Received a frame" << endl;
     long previousMsgId = -1;//Variable used to check if the previous packet was a fragment of a bigger one
-    bool alreadyDone = false;//Variable use to check if the current user have already read his own packet in the Scanning of the frame
+    bool alreadyDone = false;//Variable use to check if the current user has already read his own packet while scanning the frame
     
-    //Scan the broadcast Frame
+    //Scan the broadcasted Frame
     int byteReceived = 0;
     for(int i=0; i<25; i++){
         //Check if the RB contains a packet that belongs to me.
@@ -61,7 +61,7 @@ void User::handleFrame(Frame* frame) {
                emit(packet_signal,1);
                emit(resp_signal,responseTime);
            }
-           if(p->getFragment()) {//If the current packet is a fragment of a bigger one I have to have memory of its packet ID to perform the previou check
+           if(p->getFragment()) {//If the current packet is a fragment of a bigger one then I save its packet ID to perform the previous check
                previousMsgId = p->getTreeId();
            }
            else
