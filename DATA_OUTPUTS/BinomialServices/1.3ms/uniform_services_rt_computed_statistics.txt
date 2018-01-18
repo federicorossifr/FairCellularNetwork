@@ -1,0 +1,31 @@
+Binomial CQI
+===============
+User #:
+10
+Timeslot [ms]:
+1
+Mean inter-arrival time [ms]:
+1.3
+Rate in [pkt/ms]:
+7.69230769230769
+Simulation time [s]:
+120
+Warmup [s]:
+30
+Repetitions:
+100
+======================
+Sample size:
+100
+Mean [s]:
+0.00104557861
+Confidence interval 99% [s]:
+1.02183077617087e-05
+Standard deviation [s]:
+3.96699724924714e-05
+Lorenz curve gap:
+0.13133790095911
+Lorenz perfect unfairness gap: 
+0.99
+Little response time extimation [s]:
+0.0011030406906285

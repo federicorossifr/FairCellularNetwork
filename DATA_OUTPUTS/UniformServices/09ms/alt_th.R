@@ -1,0 +1,32 @@
+library("ineq");
+data <- scan("mean_throughput_data");
+reps <- matrix(data,nrow=10,ncol=100);
+png("alternativePlot_th.png");
+max <- seq(from=0,to=1,by=1/10);
+lcgs <- c();
+lcdatasums <- rep(0,11);
+plot(max,max,type='l',xlim=c(0,1),ylim=c(0,1),xaxs="i",yaxs="i",ylab="",xlab="",main="100 reps Lorenz curve");
+for(col in 1:100) {
+	sorted <- sort(reps[,col]);
+	lcdata <- cumsum(sorted)/sum(sorted);
+	lcdata <- c(0,lcdata);
+	lcdatasums <- lcdatasums + lcdata;
+	lcg <- mad(reps[,col])/(2*mean(reps[,col]));
+	lcgs <- c(lcg,lcgs);
+	lines(max,lcdata,col="Gray",lwd=1);
+}
+lcdatameans <- lcdatasums/100;
+lcci <- qnorm(0.995)*sqrt(var(lcgs))/sqrt(length(lcgs));
+lM <- lcdatameans-lcci;
+lU <- lcdatameans+lcci;
+lU[1] <- 0;
+lU[11] <- 1;
+lM[1] <- 0;
+lM[11] <- 1;
+lines(max,lcdatameans,col="Red",lwd=2);
+lines(max,lM,col="Red",lwd=1);
+lines(max,lU,col="Red",lwd=1);
+dev.off();
+maxLCGout <- file("lcgout_th.txt");
+writeLines(c("Max:",max(lcgs),"Mean:",mean(lcgs),"CI:99%:",lcci),maxLCGout);
+close(maxLCGout);

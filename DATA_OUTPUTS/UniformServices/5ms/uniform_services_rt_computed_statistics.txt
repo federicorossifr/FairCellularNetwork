@@ -1,0 +1,29 @@
+User #:
+10
+Timeslot [ms]:
+1
+Mean inter-arrival time [ms]:
+2
+Rate in [pkt/ms]:
+5
+Simulation time [s]:
+120
+Warmup [s]:
+30
+Repetitions:
+10
+======================
+Sample size:
+100
+Mean [s]:
+0.00054087451
+Confidence interval 99% [s]:
+2.65565901526714e-07
+Standard deviation [s]:
+1.03099184857019e-06
+Lorenz curve gap:
+0.0233114167493212
+Lorenz perfect unfairness gap: 
+0.99
+Little response time extimation [s]:
+0.000282971763774

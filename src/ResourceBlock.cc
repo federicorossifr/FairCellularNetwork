@@ -13,7 +13,7 @@ int ResourceBlock::insertPacket(Packet* p){
         //Last fragment inserted, packed size is the overall size
         if(p->getFragment()) p->setPackedSize(p->getSize());
         available-=packetSize;
-        return available;
+        return (available);
     }
     //Here packetSize > available
     //If it is a fragment insert it and update the current packed size of the packet
@@ -21,12 +21,12 @@ int ResourceBlock::insertPacket(Packet* p){
         p->setPackedSize(p->getPackedSize()+available);
         packets.insert(p);
         available=0;
-        return available;
+        return (available);
     }
     //Notify caller that whole packet could not be inserted
-    return -1;
+    return (-1);
 }
 
 Packet* ResourceBlock::popPacket(){
-    return check_and_cast<Packet *>(packets.pop());
+    return (check_and_cast<Packet *>(packets.pop()));
 }

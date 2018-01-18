@@ -1,0 +1,31 @@
+Uniform CQI - Window ON alpha=0.4
+===============
+User #:
+10
+Timeslot [ms]:
+1
+Mean inter-arrival time [ms]:
+0.9
+Rate in [pkt/ms]:
+11.1111111111111
+Simulation time [s]:
+120
+Warmup [s]:
+30
+Repetitions:
+10
+======================
+Sample size:
+100
+Mean [s]:
+0.0013278005
+Confidence interval 99% [s]:
+2.14979171116952e-06
+Standard deviation [s]:
+8.34601775904793e-06
+Lorenz curve gap:
+0.00808446745490206
+Lorenz perfect unfairness gap: 
+0.99
+Little response time extimation [s]:
+0.001368904477752

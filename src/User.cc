@@ -53,7 +53,8 @@ void User::handleFrame(Frame* frame) {
         Packet* p = NULL;
         while(!(rb->isEmpty())){//Scan the current RB
            p = rb->popPacket();
-           if(previousMsgId == -1 || previousMsgId != p->getTreeId()) {//If the previous packet was not a fragment or if the packet ID is different, the current packet is a new one
+           //If the previous packet was not a fragment or if the packet ID is different, the current packet is a new one
+           if(previousMsgId == -1 || previousMsgId != p->getTreeId()) {
                byteReceived+=p->getSize();
                EV << "Extracted packet -- " << p->getTreeId() << " size -- " << p->getSize() << endl;
                simtime_t responseTime = simTime() - p->getCreation();
@@ -61,7 +62,8 @@ void User::handleFrame(Frame* frame) {
                emit(packet_signal,1);
                emit(resp_signal,responseTime);
            }
-           if(p->getFragment()) {//If the current packet is a fragment of a bigger one then I save its packet ID to perform the previous check
+           //If the current packet is a fragment of a bigger one then I save its packet ID to perform the previous check
+           if(p->getFragment()) {
                previousMsgId = p->getTreeId();
            }
            else
@@ -81,7 +83,8 @@ void User::handleMessage(cMessage *msg)
         Cqi* cqiMsg = new Cqi();
         cqiMsg->setCqiValue(computeCqi());
         cqiMsg->setUserID(userID);
-        cqiMsg->setSchedulingPriority(1111);//CQI trasmission must be executed first to let the Antenna build the Frame in a proper way
+        //CQI transmission must be executed first to let the Antenna build the Frame in a proper way
+        cqiMsg->setSchedulingPriority(1111);
         cqiMsg->setName("CQI");
         send(cqiMsg,"out");
         scheduleAt(simTime()+par("timeSlotPeriod"),timeSlotTimer);
@@ -93,5 +96,6 @@ void User::handleMessage(cMessage *msg)
 }
 
 void User::finish() {
-    EV << (double)(cqiSum)/(double)(cqiCount) << endl;//Calculate CQI simulation mean value 
+    //Calculate CQI simulation mean value
+    EV << (double)(cqiSum)/(double)(cqiCount) << endl;
 }

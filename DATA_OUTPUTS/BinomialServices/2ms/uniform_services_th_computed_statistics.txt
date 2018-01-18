@@ -1,0 +1,12 @@
+Sample size:
+100
+Mean [byte/s]:
+18743.7502474
+Confidence interval 99% [byte/s]:
+8.30660653235539
+Standard deviation [byte/s]:
+32.2482802758351
+Lorenz curve gap:
+0.00066298455645095
+Lorenz perfect unfairness gap: 
+0.99
